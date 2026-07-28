@@ -2,48 +2,75 @@
 define('NETSDIAL', true);
 require_once __DIR__ . '/config/config.php';
 
-header('Content-Type: application/xml; charset=UTF-8');
-echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
-
-$base = SITE_URL;
+$base  = SITE_URL;
 $today = date('Y-m-d');
 
-$urls = [];
+// ── Sitemap Index mode: /sitemap.php?index=1  ────────────────────
+// ── Individual sitemap:  /sitemap.php?page=N  ────────────────────
+// ── Default (no param):  return sitemap index ────────────────────
 
-// Main pages
-$main_pages = ['/', '/about.php', '/faq.php', '/estimation.php', '/gallery.php', '/videos.php', '/reviews.php', '/blogs.php', '/contact.php'];
-foreach ($main_pages as $page) {
-    $urls[] = ['loc' => $base . $page, 'priority' => '1.0', 'changefreq' => 'weekly'];
-}
+$URLS_PER_SITEMAP = 40000; // stay well under 50k Google limit
 
-// Blog posts
-$blogs = db()->fetchAll("SELECT slug, updated_at FROM blogs WHERE status='published'");
-foreach ($blogs as $b) {
-    $urls[] = ['loc' => $base . '/blog/' . $b['slug'], 'priority' => '0.7', 'changefreq' => 'monthly', 'lastmod' => date('Y-m-d', strtotime($b['updated_at']))];
-}
+if (isset($_GET['page'])) {
+    // ── Single paginated sitemap ──────────────────────────────────
+    $page   = max(1, (int)$_GET['page']);
+    $offset = ($page - 1) * $URLS_PER_SITEMAP;
 
-// Service pages
-$districts = db()->fetchAll("SELECT * FROM districts WHERE is_active=1 ORDER BY sort_order");
-$keywords  = db()->fetchAll("SELECT * FROM service_keywords WHERE is_active=1 ORDER BY sort_order");
+    header('Content-Type: application/xml; charset=UTF-8');
+    echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 
-foreach ($districts as $d) {
-    $areas = db()->fetchAll("SELECT * FROM areas WHERE district_id=? AND is_active=1", [(int)$d['id']]);
-    foreach ($areas as $a) {
-        foreach ($keywords as $k) {
-            $url = $base . '/services/' . $d['slug'] . '/' . $a['slug'] . '/' . $k['slug'] . '/';
-            $urls[] = ['loc' => $url, 'priority' => '0.8', 'changefreq' => 'monthly'];
+    $urls = [];
+
+    if ($page === 1) {
+        // Main pages on first sitemap
+        foreach (['/', '/about.php', '/faq.php', '/estimation.php', '/gallery.php', '/videos.php', '/reviews.php', '/blogs.php', '/contact.php'] as $p) {
+            $urls[] = ['loc' => $base . $p, 'pri' => '1.0', 'cf' => 'weekly'];
+        }
+        $blogs = db()->fetchAll("SELECT slug, updated_at FROM blogs WHERE status='published' ORDER BY updated_at DESC LIMIT 500");
+        foreach ($blogs as $b) {
+            $urls[] = ['loc' => $base . '/blog/' . $b['slug'], 'pri' => '0.7', 'cf' => 'monthly', 'lm' => date('Y-m-d', strtotime($b['updated_at']))];
         }
     }
+
+    // Paginated service pages
+    $sql = "SELECT d.slug as ds, a.slug as as2, k.slug as ks
+            FROM areas a
+            JOIN districts d ON a.district_id=d.id
+            CROSS JOIN service_keywords k
+            WHERE a.is_active=1 AND d.is_active=1 AND k.is_active=1
+            ORDER BY d.id, a.id, k.id
+            LIMIT ? OFFSET ?";
+    $svcOffset = ($page === 1) ? max(0, $offset - 9) : $offset;
+    $rows = db()->fetchAll($sql, [$URLS_PER_SITEMAP, $svcOffset]);
+    foreach ($rows as $r) {
+        $urls[] = ['loc' => $base . '/services/' . $r['ds'] . '/' . $r['as2'] . '/' . $r['ks'] . '/', 'pri' => '0.8', 'cf' => 'monthly'];
+    }
+
+    echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+    foreach ($urls as $u) {
+        echo "  <url>\n";
+        echo "    <loc>" . htmlspecialchars($u['loc']) . "</loc>\n";
+        echo "    <lastmod>" . ($u['lm'] ?? $today) . "</lastmod>\n";
+        echo "    <changefreq>" . $u['cf'] . "</changefreq>\n";
+        echo "    <priority>" . $u['pri'] . "</priority>\n";
+        echo "  </url>\n";
+    }
+    echo '</urlset>';
+    exit;
 }
 
-?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<?php foreach ($urls as $u): ?>
-  <url>
-    <loc><?php echo htmlspecialchars($u['loc']); ?></loc>
-    <lastmod><?php echo $u['lastmod'] ?? $today; ?></lastmod>
-    <changefreq><?php echo $u['changefreq']; ?></changefreq>
-    <priority><?php echo $u['priority']; ?></priority>
-  </url>
-<?php endforeach; ?>
-</urlset>
+// ── Sitemap Index ─────────────────────────────────────────────────
+$total_services = db()->fetchOne("SELECT COUNT(*) as cnt FROM areas a JOIN districts d ON a.district_id=d.id CROSS JOIN service_keywords k WHERE a.is_active=1 AND d.is_active=1 AND k.is_active=1")['cnt'];
+$total_urls     = $total_services + 520; // +main pages + blogs
+$total_pages    = ceil($total_urls / $URLS_PER_SITEMAP);
+
+header('Content-Type: application/xml; charset=UTF-8');
+echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+echo '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
+for ($i = 1; $i <= $total_pages; $i++) {
+    echo "  <sitemap>\n";
+    echo "    <loc>" . htmlspecialchars($base . "/sitemap.php?page=$i") . "</loc>\n";
+    echo "    <lastmod>$today</lastmod>\n";
+    echo "  </sitemap>\n";
+}
+echo '</sitemapindex>';

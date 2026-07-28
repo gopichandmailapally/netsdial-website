@@ -248,18 +248,49 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
           </p>
           <br>
           <p><strong>We are net suppliers, not installers.</strong> We supply to local dealers, installation contractors,
-          builders and bulk buyers. Our Russea™ brand covers HDPE Braided Nets, HDPE Twisted Nets and HDPE Knotted Nets —
-          the three main construction methods for premium netting products.</p>
+          builders and bulk buyers across <?php echo htmlspecialchars($state_name); ?>. Our Russea™ brand covers
+          HDPE Braided Nets, HDPE Twisted Nets and HDPE Knotted Nets — the three main construction methods for premium netting.</p>
+          <br>
+          <?php
+          // Unique state-specific paragraph for SEO differentiation
+          $state_intros = [
+            'Telangana'         => "As the leading Russea™ net supplier in Telangana, NetsDial delivers across all 33 districts including {$area_name} in {$city_name}. With the rapid growth of apartments and residential complexes across Hyderabad, Warangal, Karimnagar and beyond, demand for quality HDPE nets has surged. We supply wholesale to contractors across entire Telangana.",
+            'Andhra Pradesh'    => "Andhra Pradesh's booming construction sector in cities like Visakhapatnam, Vijayawada and Tirupati drives strong demand for quality HDPE nets. NetsDial by GCM Enterprises is proud to be the preferred Russea™ net supplier for dealers and contractors across AP, including {$area_name} in {$city_name}.",
+            'Karnataka'         => "Karnataka's thriving IT corridors and residential zones in Bengaluru, Mysuru and Mangaluru create constant demand for balcony safety nets, pigeon nets and invisible grills. NetsDial delivers premium Russea™ HDPE nets wholesale across Karnataka, reaching {$area_name} in {$city_name} with speed and quality.",
+            'Tamil Nadu'        => "Tamil Nadu with its dense urban population — from Chennai to Coimbatore and Madurai — has a growing market for HDPE safety and sports nets. NetsDial supplies Russea™ branded nets wholesale to dealers across all Tamil Nadu districts including {$area_name} in {$city_name}.",
+            'Kerala'            => "Kerala's high residential density and apartment culture creates excellent demand for pigeon nets, balcony safety nets and invisible grills. NetsDial is committed to supplying genuine Russea™ HDPE nets across all of Kerala — from Thiruvananthapuram to Kochi to Kozhikode including {$area_name}.",
+            'Maharashtra'       => "Maharashtra is India's most industrialized state with millions of apartments in Mumbai, Pune, Nagpur and beyond. NetsDial supplies premium Russea™ HDPE nets wholesale to Maharashtra dealers, reaching {$area_name} in {$city_name}. Bulk orders receive special wholesale pricing.",
+            'Delhi'             => "Delhi NCR — one of India's most densely populated urban regions — has massive demand for balcony safety nets, pigeon nets and sports nets. NetsDial supplies Russea™ HDPE nets wholesale to Delhi dealers and contractors serving {$area_name}.",
+            'Uttar Pradesh'     => "Uttar Pradesh, India's most populous state, presents a huge and growing market for HDPE safety and sports nets. NetsDial by GCM Enterprises is expanding its wholesale Russea™ net supply across all 75 UP districts — now serving {$area_name} in {$city_name}.",
+            'Rajasthan'         => "Rajasthan's rapidly growing urban centres and new townships demand quality HDPE net solutions. NetsDial supplies Russea™ branded nets wholesale to Rajasthan dealers and contractors, now covering {$area_name} in {$city_name} with pan-India logistics.",
+            'Gujarat'           => "Gujarat's progressive business environment and growing urban landscape create excellent opportunities for wholesale HDPE net supply. NetsDial delivers Russea™ nets to all of Gujarat including {$area_name} in {$city_name} at competitive bulk prices.",
+            'West Bengal'       => "West Bengal's dense population and growing housing sector drive demand for quality netting solutions. NetsDial supplies Russea™ HDPE nets wholesale across West Bengal — from Kolkata to Siliguri, now reaching {$area_name} in {$city_name}.",
+            'Madhya Pradesh'    => "Madhya Pradesh's developing cities and expanding real estate sector are key targets for wholesale HDPE net supply. NetsDial by GCM Enterprises supplies Russea™ nets across all MP districts, including {$area_name} in {$city_name}.",
+            'Bihar'             => "Bihar's rapidly urbanizing towns and cities create new demand for safety and sports nets. NetsDial is now supplying Russea™ HDPE nets wholesale across Bihar, ensuring dealers in {$area_name}, {$city_name} get genuine quality at best prices.",
+            'Jharkhand'         => "Jharkhand's industrial cities like Jamshedpur, Dhanbad and Ranchi have significant demand for HDPE net solutions. NetsDial delivers Russea™ nets wholesale to Jharkhand dealers including those in {$area_name}, {$city_name}.",
+            'Odisha'            => "Odisha's growing cities, smart city projects and sports infrastructure create demand for quality HDPE nets. NetsDial supplies Russea™ branded wholesale nets to dealers across Odisha including {$area_name} in {$city_name}.",
+            'Chhattisgarh'      => "Chhattisgarh's urban centres like Raipur, Bilaspur and Durg are expanding rapidly. NetsDial now serves wholesale Russea™ HDPE net buyers in {$area_name}, {$city_name} — ensuring the state gets access to genuine quality nets at the best prices.",
+            'Assam'             => "Assam's urban centers like Guwahati, Dibrugarh and Silchar are seeing rapid residential development. NetsDial delivers Russea™ HDPE nets wholesale to Northeast India, covering {$area_name} in {$city_name} with India's most trusted brand.",
+            'Punjab'            => "Punjab's prosperous communities and modern housing demand premium net solutions. NetsDial supplies Russea™ HDPE nets wholesale to Punjab dealers — serving {$area_name} in {$city_name} with guaranteed quality and competitive bulk pricing.",
+            'Haryana'           => "Haryana's booming NCR regions and industrial zones drive demand for quality safety nets. NetsDial is expanding Russea™ wholesale supply across Haryana, reaching {$area_name} in {$city_name} with genuine HDPE nets at best prices.",
+            'Uttarakhand'       => "Uttarakhand's hill stations and urban centers like Dehradun, Haridwar and Roorkee need quality net solutions. NetsDial supplies Russea™ HDPE nets wholesale to Uttarakhand dealers — now serving {$area_name} in {$city_name}.",
+            'Himachal Pradesh'  => "Himachal Pradesh's tourist towns and residential zones from Shimla to Dharamsala demand quality nets. NetsDial delivers Russea™ branded HDPE nets wholesale to HP dealers including those in {$area_name}, {$city_name}.",
+            'Jammu & Kashmir'   => "J&K's growing urban areas including Jammu city, Srinagar and key towns need quality HDPE nets. NetsDial supplies Russea™ wholesale nets across J&K, serving dealers in {$area_name}, {$city_name} at competitive prices.",
+            'Goa'               => "Goa's thriving tourism and residential sectors drive demand for balcony safety nets and sports nets. NetsDial supplies Russea™ HDPE nets wholesale to Goa dealers, covering {$area_name} with India's most trusted netting brand.",
+          ];
+          $intro = $state_intros[$state_name] ?? "NetsDial by GCM Enterprises supplies Russea™ HDPE nets wholesale across India, reaching every corner including {$area_name} in {$city_name}, {$state_name}. We are South India's largest net supplier — delivering genuine quality at wholesale prices.";
+          ?>
+          <p style="background:rgba(255,107,0,.06);border-left:4px solid var(--primary);padding:14px 16px;border-radius:0 8px 8px 0;margin:12px 0"><?php echo $intro; ?></p>
           <br>
           <p><strong>Why choose Russea™ <?php echo htmlspecialchars($keyword_name); ?> from NetsDial in <?php echo htmlspecialchars($area_name); ?>?</strong></p>
           <ul style="margin:12px 0 0 4px;line-height:2.2">
             <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Official Russea™ brand — registered trademark, guaranteed quality</li>
-            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;HDPE Braided, Twisted &amp; Knotted nets in all sizes</li>
-            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Wholesale pricing — best rates in <?php echo htmlspecialchars($city_name); ?></li>
-            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Fast delivery to <?php echo htmlspecialchars($area_name); ?> &amp; nearby areas</li>
+            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;HDPE Braided, Twisted &amp; Knotted nets — all specifications available</li>
+            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Wholesale pricing — best rates for <?php echo htmlspecialchars($city_name); ?>, <?php echo htmlspecialchars($state_name); ?></li>
+            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Fast delivery to <?php echo htmlspecialchars($area_name); ?> &amp; all <?php echo htmlspecialchars($city_name); ?> areas</li>
             <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;GST invoices &amp; warranty cards with every order</li>
-            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;India's largest net supplier from South India</li>
-            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;10,000+ dealers serviced PAN India</li>
+            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;South India's largest net supplier — 10,000+ dealers PAN India</li>
+            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Bulk orders welcome — special rates for <?php echo htmlspecialchars($state_name); ?> dealers</li>
           </ul>
         </div>
 
