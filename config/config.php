@@ -179,6 +179,7 @@ function buildBreadcrumb(array $items) {
     return $html . '</ol>';
 }
 
+if (!function_exists('trackVisitor')):
 function trackVisitor() {
     if (php_sapi_name() === 'cli') return;
     if (session_status() === PHP_SESSION_NONE) session_start();
@@ -211,3 +212,4 @@ function trackVisitor() {
         } catch(Exception $e) {}
     }
 }
+endif; // end if(!function_exists('trackVisitor'))

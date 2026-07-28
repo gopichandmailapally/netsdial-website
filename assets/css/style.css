@@ -3,6 +3,19 @@
    Brand Colors: Orange #FF6B00 | Dark #1A1A1A | White #FFFFFF
    ═══════════════════════════════════════════════════════════ */
 
+/* ── AOS Fallback: ensure content is NEVER hidden permanently ── */
+/* If AOS CSS loads but JS fails, elements still show after 1s  */
+[data-aos] {
+  transition-delay: 0s !important;
+}
+@keyframes aosReveal {
+  to { opacity: 1; transform: none; }
+}
+/* After 1.5s, force-reveal any still-hidden AOS elements */
+[data-aos]:not(.aos-animate) {
+  animation: aosReveal 0.4s 1.5s forwards;
+}
+
 /* ── Variables ──────────────────────────────────────────── */
 :root {
   --primary: #FF6B00;

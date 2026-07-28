@@ -32,7 +32,12 @@ include __DIR__ . '/includes/header.php';
       <?php if (!empty($sliders)): ?>
         <?php foreach ($sliders as $slide): ?>
         <div class="swiper-slide">
-          <div class="slide-bg" style="background-image:url('<?php echo SITE_URL . '/' . htmlspecialchars($slide['image_path']); ?>')"></div>
+          <?php
+          $slideBg = (!empty($slide['image_path']) && $slide['image_path'] !== '')
+            ? 'background-image:url(\'' . SITE_URL . '/' . htmlspecialchars($slide['image_path']) . '\');background-color:#1a1a2e'
+            : 'background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)';
+          ?>
+          <div class="slide-bg" style="<?php echo $slideBg; ?>"></div>
           <div class="slide-overlay"></div>
           <div class="slide-content container">
             <span class="slide-badge">
@@ -61,16 +66,16 @@ include __DIR__ . '/includes/header.php';
         <!-- Default slides when no DB data -->
         <?php
         $default_slides = [
-          ['Pigeon Netting Solutions', 'India\'s #1 Russea™ HDPE Pigeon Net Wholesale Suppliers. Best quality, Lowest Price, Free Delivery.', 'assets/images/sliders/slider-pigeon-netting.jpg'],
-          ['Balcony Safety Nets', 'Protect your loved ones with Russea™ Premium Balcony Safety Nets. Child & Pet Friendly.', 'assets/images/sliders/slider-balcony-nets.jpg'],
-          ['Invisible Grills', 'Modern SS Invisible Grills for Balconies & Windows. Safety without compromising view.', 'assets/images/sliders/slider-invisible-grills.jpg'],
-          ['Artificial Grass & Turf', 'Premium Artificial Grass for Homes, Terraces & Sports Grounds. Low maintenance.', 'assets/images/sliders/slider-artificial-grass.jpg'],
-          ['Box Cricket Setup', 'Complete Box Cricket Ground Construction. Nets + Turf + Flooring.', 'assets/images/sliders/slider-box-cricket.jpg'],
-          ['SS Cloth Hangers', 'Premium SS Cloth Drying Systems for Balconies. Space-saving & weather-proof.', 'assets/images/sliders/slider-cloth-hangers.jpg'],
+          ['Pigeon Netting Solutions', 'India\'s #1 Russea™ HDPE Pigeon Net Wholesale Suppliers. Best quality, Lowest Price, Free Delivery.', 'linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%)'],
+          ['Balcony Safety Nets', 'Protect your loved ones with Russea™ Premium Balcony Safety Nets. Child & Pet Friendly. UV Stabilized.', 'linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%)'],
+          ['Invisible Grills', 'Modern Stainless Steel Invisible Grills for Balconies & Windows. Maintain your view, ensure safety.', 'linear-gradient(135deg,#0d0d0d 0%,#1a1a1a 50%,#2d2d2d 100%)'],
+          ['Artificial Grass & Turf', 'Premium Artificial Grass for Homes, Terraces & Sports Grounds. Low maintenance, high durability.', 'linear-gradient(135deg,#134e5e 0%,#1a5276 50%,#1f618d 100%)'],
+          ['Box Cricket Setup', 'Complete Box Cricket Ground Construction. Nets + Turf + Structure + Flooring.', 'linear-gradient(135deg,#1b2631 0%,#2e4057 50%,#3d5a80 100%)'],
+          ['SS Cloth Hangers', 'Premium SS Cloth Drying Systems for Balconies. Space-saving & weather-proof. Easy operation.', 'linear-gradient(135deg,#2c3e50 0%,#3d5a6e 50%,#4a7089 100%)'],
         ];
         foreach ($default_slides as $ds): ?>
         <div class="swiper-slide">
-          <div class="slide-bg" style="background:linear-gradient(135deg,#1a1a1a 0%,#2d2d2d 100%)"></div>
+          <div class="slide-bg" style="background:<?php echo $ds[2]; ?>"></div>
           <div class="slide-overlay"></div>
           <div class="slide-content container">
             <span class="slide-badge"><i class="fas fa-certificate"></i> Russea™ Authorized Dealer</span>
@@ -352,37 +357,35 @@ include __DIR__ . '/includes/header.php';
     </div>
     <div class="services-grid">
       <?php
-      $service_imgs = [
-        'pigeon-netting'            => 'assets/images/services/pigeon-netting.jpg',
-        'bird-netting'              => 'assets/images/services/bird-netting.jpg',
-        'anti-bird-nets'            => 'assets/images/services/anti-bird-nets.jpg',
-        'balcony-safety-nets'       => 'assets/images/services/balcony-safety-nets.jpg',
-        'children-safety-nets'      => 'assets/images/services/children-safety-nets.jpg',
-        'pigeon-spikes'             => 'assets/images/services/pigeon-spikes.jpg',
-        'anti-bird-spikes'          => 'assets/images/services/anti-bird-spikes.jpg',
-        'polycarbonate-spikes'      => 'assets/images/services/polycarbonate-spikes.jpg',
-        'ss-bird-spikes'            => 'assets/images/services/ss-bird-spikes.jpg',
-        'invisible-grills'          => 'assets/images/services/invisible-grills.jpg',
-        'ss-invisible-grills'       => 'assets/images/services/ss-invisible-grills.jpg',
-        'cloth-hangers-installation'=> 'assets/images/services/cloth-hangers.jpg',
-        'ss-cloth-hangers'          => 'assets/images/services/ss-cloth-hangers.jpg',
-        'artificial-grass'          => 'assets/images/services/artificial-grass.jpg',
-        'artificial-turf'           => 'assets/images/services/artificial-turf.jpg',
-        'cricket-ground-pitch-turf' => 'assets/images/services/cricket-turf.jpg',
-        'sports-practice-nets'      => 'assets/images/services/sports-practice-nets.jpg',
-        'box-cricket-nets'          => 'assets/images/services/box-cricket-nets.jpg',
-        'box-cricket-setup'         => 'assets/images/services/box-cricket-setup.jpg',
+      // Service icon + gradient mapping (works without any images)
+      $service_meta = [
+        'pigeon-netting'            => ['fa-dove',         'linear-gradient(135deg,#0f2027,#203a43,#2c5364)', '#4ecdc4'],
+        'bird-netting'              => ['fa-feather-alt',  'linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)', '#74b9ff'],
+        'anti-bird-nets'            => ['fa-shield-alt',   'linear-gradient(135deg,#2d3561,#c05c7e,#f3826f)', '#fd79a8'],
+        'balcony-safety-nets'       => ['fa-home',         'linear-gradient(135deg,#134e5e,#1a5276,#1f618d)', '#00cec9'],
+        'children-safety-nets'      => ['fa-child',        'linear-gradient(135deg,#11998e,#38ef7d,#11998e)', '#00b894'],
+        'pigeon-spikes'             => ['fa-thumbtack',    'linear-gradient(135deg,#373b44,#4286f4,#373b44)', '#74b9ff'],
+        'anti-bird-spikes'          => ['fa-bolt',         'linear-gradient(135deg,#642b73,#c6426e,#642b73)', '#fd79a8'],
+        'polycarbonate-spikes'      => ['fa-layer-group',  'linear-gradient(135deg,#1c1c1c,#414345,#1c1c1c)', '#b2bec3'],
+        'ss-bird-spikes'            => ['fa-star',         'linear-gradient(135deg,#0f3460,#533483,#0f3460)', '#a29bfe'],
+        'invisible-grills'          => ['fa-border-all',   'linear-gradient(135deg,#232526,#414345,#232526)', '#dfe6e9'],
+        'ss-invisible-grills'       => ['fa-bars',         'linear-gradient(135deg,#1a1a1a,#3d5a80,#1a1a1a)', '#74b9ff'],
+        'cloth-hangers-installation'=> ['fa-tshirt',       'linear-gradient(135deg,#2c3e50,#4ca1af,#2c3e50)', '#81ecec'],
+        'ss-cloth-hangers'          => ['fa-wind',         'linear-gradient(135deg,#1a1a2e,#4a90a4,#1a1a2e)', '#74b9ff'],
+        'artificial-grass'          => ['fa-seedling',     'linear-gradient(135deg,#134e5e,#71b280,#134e5e)', '#00b894'],
+        'artificial-turf'           => ['fa-leaf',         'linear-gradient(135deg,#0a3d2e,#1e8449,#0a3d2e)', '#55efc4'],
+        'cricket-ground-pitch-turf' => ['fa-baseball-ball','linear-gradient(135deg,#1b2631,#2e4057,#3d5a80)', '#fdcb6e'],
+        'sports-practice-nets'      => ['fa-table-tennis', 'linear-gradient(135deg,#1a1a2e,#533483,#c84b31)', '#fd79a8'],
+        'box-cricket-nets'          => ['fa-th',           'linear-gradient(135deg,#0f2027,#2c5364,#0f2027)', '#74b9ff'],
+        'box-cricket-setup'         => ['fa-building',     'linear-gradient(135deg,#1b2631,#2e4057,#1b2631)', '#fdcb6e'],
       ];
       foreach ($services as $svc):
-        $img = $service_imgs[$svc['slug']] ?? 'assets/images/services/default-service.jpg';
+        $meta = $service_meta[$svc['slug']] ?? ['fa-network-wired','linear-gradient(135deg,#1a1a1a,#333,#1a1a1a)','#FF6B00'];
       ?>
       <div class="service-card" data-aos="fade-up">
-        <div class="service-card-img-wrap">
-          <img src="<?php echo SITE_URL . '/' . $img; ?>"
-               alt="<?php echo htmlspecialchars($svc['name']); ?> - Russea™ Wholesale Hyderabad"
-               class="service-card-img" loading="lazy"
-               onerror="this.src='<?php echo SITE_URL; ?>/assets/images/services/default-service.jpg'">
-          <span class="service-card-badge"><?php echo htmlspecialchars($svc['category']); ?></span>
+        <div class="service-card-img-wrap" style="background:<?php echo $meta[1]; ?>;min-height:180px;display:flex;align-items:center;justify-content:center;position:relative;">
+          <i class="fas <?php echo $meta[0]; ?>" style="font-size:3.5rem;color:<?php echo $meta[2]; ?>;opacity:0.9;z-index:1;"></i>
+          <span class="service-card-badge" style="position:absolute;top:10px;right:10px"><?php echo htmlspecialchars($svc['category']); ?></span>
         </div>
         <div class="service-card-body">
           <h3><?php echo htmlspecialchars($svc['name']); ?> - Hyderabad</h3>
@@ -409,10 +412,14 @@ include __DIR__ . '/includes/header.php';
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap" data-aos="fade-right">
-        <img src="<?php echo SITE_URL; ?>/assets/images/about-netsdial.jpg"
-             alt="NetsDial - GCM Enterprises Hyderabad - Russea Net Suppliers"
-             loading="lazy"
-             onerror="this.src='<?php echo SITE_URL; ?>/assets/images/logo.png'">
+        <div style="background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);border-radius:16px;width:100%;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;">
+          <i class="fas fa-network-wired" style="font-size:5rem;color:#4ecdc4;opacity:0.9;"></i>
+          <div style="text-align:center;color:#fff;">
+            <h3 style="color:#FF8C42;font-size:1.4rem;margin-bottom:4px;">NetsDial</h3>
+            <p style="opacity:0.85;font-size:0.95rem;">Russea™ HDPE Net Wholesale Suppliers</p>
+            <p style="opacity:0.7;font-size:0.85rem;">Managed by GCM Enterprises, Hyderabad</p>
+          </div>
+        </div>
         <div class="about-badge-float">
           <div>
             <span class="num">10+</span>

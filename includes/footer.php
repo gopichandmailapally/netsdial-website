@@ -223,7 +223,17 @@ const SITE_CONFIG = {
   phone:   '<?php echo SITE_PHONE; ?>',
   whatsapp:'<?php echo SITE_WHATSAPP; ?>'
 };
-AOS.init({ duration: 800, once: true, offset: 80, easing: 'ease-out-cubic' });
+// Initialize AOS with low offset so elements animate immediately when visible
+if (typeof AOS !== 'undefined') {
+  AOS.init({ duration: 700, once: true, offset: 30, easing: 'ease-out-cubic', disable: false });
+} else {
+  // AOS failed to load — make all data-aos elements visible
+  document.querySelectorAll('[data-aos]').forEach(function(el) {
+    el.style.opacity = '1';
+    el.style.transform = 'none';
+    el.style.transition = 'none';
+  });
+}
 
 // Live visitor count
 fetch('<?php echo SITE_URL; ?>/api/visitor.php?action=live_count')
