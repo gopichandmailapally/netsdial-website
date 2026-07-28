@@ -1,0 +1,25 @@
+# Sensitive configuration — do not commit
+config/database.php
+
+# Uploads (user content)
+uploads/gallery/*
+uploads/sliders/*
+uploads/blogs/*
+uploads/logos/*
+uploads/videos/*
+!uploads/gallery/.gitkeep
+!uploads/sliders/.gitkeep
+!uploads/blogs/.gitkeep
+!uploads/logos/.gitkeep
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# PHP error logs
+*.log
+error_log
