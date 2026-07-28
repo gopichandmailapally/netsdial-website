@@ -37,46 +37,51 @@ if (!$district || !$area || !$keyword) {
 $city_name    = $district['name'];
 $area_name    = $area['name'];
 $keyword_name = $keyword['name'];
-// Always append city name for SEO ("Pigeon Net in Kukatpally, Hyderabad")
-$page_title   = $keyword_name . ' in ' . $area_name . ', ' . $city_name;
+$state_name   = $district['state'] ?? 'India';
 
-// SEO – rich, wholesale-focused meta
-$page_title       = $page_title . ' | Russea™ HDPE Net Wholesale Supplier | NetsDial Hyderabad';
-$page_description = "Buy Russea™ branded {$keyword_name} in {$area_name}, {$city_name} — wholesale prices from NetsDial by GCM Enterprises. India's largest Russea™ HDPE net supplier. HDPE Braided, Twisted & Knotted nets. Call +91 9966499144 for bulk pricing.";
-$page_keywords    = strtolower(
+// Always append city name for SEO ("Pigeon Net in Kukatpally, Hyderabad")
+$page_title_base = $keyword_name . ' in ' . $area_name . ', ' . $city_name;
+
+// SEO – rich, wholesale-focused meta (city-specific, not locked to Hyderabad)
+$page_title       = $page_title_base . ' | Russea™ HDPE Net Wholesale Supplier | NetsDial';
+$page_description = "Buy Russea™ branded {$keyword_name} in {$area_name}, {$city_name}, {$state_name} — wholesale prices from NetsDial by GCM Enterprises, Hyderabad. India's largest Russea™ HDPE net supplier from South India. HDPE Braided, Twisted & Knotted nets. Call +91 9966499144 for bulk pricing.";
+
+// City-specific meta keywords (covers current city + nearby + Hyderabad as HQ)
+$page_keywords = strtolower(
     "russea {$keyword_name} {$area_name}, {$keyword_name} wholesale {$city_name}, {$keyword_name} in {$area_name}, " .
     "{$keyword_name} in {$city_name}, {$keyword_name} near me, {$keyword_name} price {$area_name}, " .
     "{$keyword_name} cost {$city_name}, best {$keyword_name} {$area_name}, {$keyword_name} dealers {$city_name}, " .
     "buy {$keyword_name} {$area_name}, {$keyword_name} suppliers {$city_name}, russea hdpe nets {$city_name}, " .
-    "hdpe braided {$keyword_name}, hdpe twisted net {$city_name}, netsdial {$city_name}, gcm enterprises {$city_name}, " .
-    "{$keyword_name} hyderabad, {$keyword_name} telangana, {$keyword_name} india wholesale"
+    "hdpe braided {$keyword_name} {$state_name}, hdpe twisted net {$city_name}, netsdial {$city_name}, " .
+    "gcm enterprises {$city_name}, {$keyword_name} {$state_name}, wholesale {$keyword_name} {$state_name}, " .
+    "{$keyword_name} hyderabad, {$keyword_name} india wholesale, russea nets india, hdpe nets supplier india"
 );
 
 // Related keywords for this service
 $related_keywords = db()->fetchAll("SELECT name, slug FROM service_keywords WHERE slug != ? AND is_active=1 ORDER BY sort_order LIMIT 6", [$keyword_slug]);
 // Other areas in same district
 $other_areas = db()->fetchAll("SELECT name, slug FROM areas WHERE district_id = ? AND slug != ? AND is_active=1 ORDER BY sort_order LIMIT 10", [$district['id'], $area_slug]);
-// All districts (for cross-links)
-$all_districts = db()->fetchAll("SELECT name, slug FROM districts WHERE is_active=1 ORDER BY sort_order LIMIT 10");
+// More cities across India (for cross-state links)
+$all_districts = db()->fetchAll("SELECT name, slug, state FROM districts WHERE is_active=1 ORDER BY RAND() LIMIT 12");
 
-// Build extended keyword variations for SEO content
+// Build extended keyword variations for SEO content – all city-specific
 $keyword_variations = [
     $keyword_name . ' in ' . $area_name,
     'Russea™ ' . $keyword_name . ' in ' . $city_name,
-    $keyword_name . ' near me',
-    $keyword_name . ' price ' . $area_name,
-    $keyword_name . ' cost ' . $city_name,
-    'buy ' . $keyword_name . ' ' . $area_name,
-    'best ' . $keyword_name . ' ' . $area_name,
+    $keyword_name . ' near me in ' . $area_name,
+    $keyword_name . ' price in ' . $area_name,
+    $keyword_name . ' cost in ' . $city_name,
+    'buy ' . $keyword_name . ' in ' . $area_name,
+    'best ' . $keyword_name . ' in ' . $area_name,
     $keyword_name . ' wholesale ' . $city_name,
-    $keyword_name . ' dealers ' . $city_name,
+    $keyword_name . ' dealers in ' . $city_name,
     $keyword_name . ' suppliers ' . $city_name,
     'HDPE ' . $keyword_name . ' ' . $city_name,
     'Russea™ HDPE ' . $keyword_name . ' ' . $area_name,
-    'wholesale ' . $keyword_name . ' South India',
-    $keyword_name . ' Hyderabad',
-    $keyword_name . ' Telangana',
-    $keyword_name . ' India',
+    'wholesale ' . $keyword_name . ' ' . $state_name,
+    $keyword_name . ' ' . $state_name,
+    $keyword_name . ' India wholesale',
+    'Russea™ nets supplier in ' . $city_name,
 ];
 
 // Service image
@@ -307,18 +312,29 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
           </div>
         </div>
 
-        <!-- Other Districts -->
+        <!-- Other Cities Across India -->
         <div data-aos="fade-up" style="margin-top:24px">
-          <h4 style="margin-bottom:14px"><?php echo htmlspecialchars($keyword_name); ?> in Other Cities</h4>
+          <h4 style="margin-bottom:6px"><?php echo htmlspecialchars($keyword_name); ?> — Other Cities Across India</h4>
+          <p style="color:var(--gray-400);font-size:.85rem;margin-bottom:12px">NetsDial supplies Russea™ nets PAN India. Find your city:</p>
           <div class="keyword-tags">
             <?php foreach ($all_districts as $ad): ?>
             <?php if ($ad['slug'] !== $district_slug): ?>
-            <a href="<?php echo SITE_URL; ?>/services/<?php echo $ad['slug']; ?>/<?php echo $area_slug; ?>/<?php echo $keyword_slug; ?>/" class="keyword-tag">
-              <i class="fas fa-city"></i> <?php echo htmlspecialchars($keyword_name); ?> in <?php echo htmlspecialchars($ad['name']); ?>
+            <a href="<?php echo SITE_URL; ?>/services/<?php echo $ad['slug']; ?>/" class="keyword-tag">
+              <i class="fas fa-city"></i> <?php echo htmlspecialchars($keyword_name); ?> in <?php echo htmlspecialchars($ad['name']); ?><?php if (!empty($ad['state']) && $ad['state'] !== $district['state']): ?> <small style="opacity:.7">(<?php echo htmlspecialchars($ad['state']); ?>)</small><?php endif; ?>
             </a>
             <?php endif; ?>
             <?php endforeach; ?>
           </div>
+        </div>
+
+        <!-- State-wise Coverage Highlight -->
+        <div data-aos="fade-up" style="margin-top:20px;background:linear-gradient(135deg,#fff8f0,#fff);border:1px solid #ffe4c8;border-radius:12px;padding:18px">
+          <h5 style="color:var(--primary);margin-bottom:10px"><i class="fas fa-map-marked-alt"></i> We Supply Across All India</h5>
+          <p style="font-size:.85rem;color:var(--gray-500);margin:0">
+            Telangana · Andhra Pradesh · Karnataka · Tamil Nadu · Kerala · Maharashtra ·
+            Delhi NCR · Uttar Pradesh · Rajasthan · Gujarat · West Bengal · Madhya Pradesh ·
+            Punjab · Haryana · Odisha · Bihar · Jharkhand · Chhattisgarh · Assam &amp; more
+          </p>
         </div>
 
         <!-- Contact CTA -->
