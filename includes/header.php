@@ -254,24 +254,39 @@ $canonical = SITE_URL . strtok($page_url, '?');
                   <h4 class="mega-section-title">
                     <i class="fas fa-map-marker-alt" style="color:#FF6B00"></i>
                     Find Russea™ Nets Near You
+                    <span style="font-size:.72rem;font-weight:400;color:#aaa;margin-left:8px"><?php echo db()->fetchOne("SELECT COUNT(*) as c FROM districts WHERE is_active=1")['c']; ?> cities across India</span>
                   </h4>
                   <div class="mega-columns">
 
-                    <!-- Level 2: Districts -->
+                    <!-- Level 2: Districts with search -->
                     <div class="mega-col mega-col-districts">
                       <h5><i class="fas fa-city"></i> District / City</h5>
+                      <!-- Search box -->
+                      <div class="district-search-wrap">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="districtSearch" placeholder="Search city..." autocomplete="off">
+                      </div>
                       <ul class="district-list" id="districtList">
                         <?php
-                        $districts = db()->fetchAll("SELECT id,name,slug FROM districts WHERE is_active=1 ORDER BY sort_order LIMIT 25");
-                        foreach ($districts as $i => $dist): ?>
-                        <li class="district-item <?php echo $i===0?'active':''; ?>"
+                        // Load ALL districts ordered by sort_order, grouped visually
+                        $all_districts = db()->fetchAll("SELECT id,name,slug,state FROM districts WHERE is_active=1 ORDER BY sort_order,name");
+                        $current_state = '';
+                        foreach ($all_districts as $i => $dist):
+                          $is_first = $i === 0;
+                        ?>
+                        <li class="district-item <?php echo $is_first?'active':''; ?>"
                             data-district-id="<?php echo $dist['id']; ?>"
-                            data-district-slug="<?php echo $dist['slug']; ?>">
+                            data-district-slug="<?php echo $dist['slug']; ?>"
+                            data-state="<?php echo htmlspecialchars($dist['state']); ?>"
+                            data-name="<?php echo strtolower(htmlspecialchars($dist['name'])); ?>">
                           <span><?php echo htmlspecialchars($dist['name']); ?></span>
                           <i class="fas fa-chevron-right"></i>
                         </li>
                         <?php endforeach; ?>
                       </ul>
+                      <div class="district-count-info" id="districtCount">
+                        Showing <span id="districtVisible"><?php echo count($all_districts); ?></span> cities
+                      </div>
                     </div>
 
                     <!-- Level 3: Areas (AJAX) -->

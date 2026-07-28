@@ -171,6 +171,45 @@
       activeDistrictSlug = dSlug;
       loadAreas(dId, dSlug, renderAreas);
     }
+
+    // ── District Search ──────────────────────────────────────
+    const searchInput   = document.getElementById('districtSearch');
+    const countEl       = document.getElementById('districtVisible');
+    const allItems      = districtList.querySelectorAll('.district-item');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', function () {
+        const q = this.value.trim().toLowerCase();
+        let visible = 0;
+        allItems.forEach(item => {
+          const name  = item.dataset.name  || '';
+          const state = (item.dataset.state || '').toLowerCase();
+          const match = !q || name.includes(q) || state.includes(q);
+          item.classList.toggle('hidden', !match);
+          if (match) visible++;
+        });
+        if (countEl) countEl.textContent = visible;
+
+        // If search clears, re-activate first visible item
+        if (!q) {
+          const first = districtList.querySelector('.district-item:not(.hidden)');
+          if (first && !districtList.querySelector('.district-item.active:not(.hidden)')) {
+            allItems.forEach(i => i.classList.remove('active'));
+            first.classList.add('active');
+            handleDistrictHover(first);
+          }
+        }
+      });
+
+      // Clear search on menu close
+      document.addEventListener('click', function (e) {
+        if (!e.target.closest('#megaMenu') && !e.target.closest('.has-mega')) {
+          searchInput.value = '';
+          allItems.forEach(item => item.classList.remove('hidden'));
+          if (countEl) countEl.textContent = allItems.length;
+        }
+      });
+    }
   }
 
   // ── Mobile Navigation Toggle ──────────────────────────────

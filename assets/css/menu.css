@@ -197,9 +197,46 @@
 .mega-col-districts { border-right: 1px solid var(--border); }
 .mega-col-areas { border-right: 1px solid var(--border); }
 
+/* District Search Box */
+.district-search-wrap {
+  position: relative;
+  padding: 8px 10px 6px;
+  border-bottom: 1px solid var(--border);
+}
+.district-search-wrap i {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  font-size: .75rem;
+  pointer-events: none;
+}
+#districtSearch {
+  width: 100%;
+  padding: 6px 10px 6px 28px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: .78rem;
+  outline: none;
+  background: #f9f9f9;
+  color: var(--text-dark);
+  transition: border-color .2s;
+}
+#districtSearch:focus { border-color: var(--primary); background:#fff; }
+
+/* District count info */
+.district-count-info {
+  padding: 5px 14px;
+  font-size: .7rem;
+  color: var(--text-light);
+  border-top: 1px solid var(--border);
+  background: #f9f9f9;
+}
+
 /* District List */
 .district-list {
-  max-height: 320px;
+  max-height: 280px;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--primary) var(--light-gray);
@@ -207,6 +244,8 @@
 .district-list::-webkit-scrollbar { width: 4px; }
 .district-list::-webkit-scrollbar-track { background: var(--light-gray); }
 .district-list::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 2px; }
+/* Hide filtered items */
+.district-item.hidden { display: none; }
 
 .district-item {
   display: flex;
