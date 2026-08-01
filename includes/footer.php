@@ -79,13 +79,23 @@
             <a href="mailto:<?php echo SITE_EMAIL; ?>" itemprop="email">
               <i class="fas fa-envelope"></i> <?php echo SITE_EMAIL; ?>
             </a>
+            <!-- Schema.org address meta (hidden) -->
+            <div itemscope itemtype="https://schema.org/PostalAddress" style="display:none">
+              <meta itemprop="streetAddress" content="Plot No.91, Road No.2, Sri Ram Nagar Colony, Karmanghat, Saroornagar">
+              <meta itemprop="addressLocality" content="Hyderabad">
+              <meta itemprop="postalCode" content="500035">
+              <meta itemprop="addressRegion" content="Telangana">
+              <meta itemprop="addressCountry" content="IN">
+            </div>
+            <!-- Visible address (clean, no spans) -->
             <div style="display:flex;align-items:flex-start;gap:8px">
-              <i class="fas fa-map-marker-alt" style="margin-top:4px;flex-shrink:0"></i>
-              <address style="font-style:normal;line-height:1.75" itemscope itemtype="https://schema.org/PostalAddress">
-                <span itemprop="streetAddress">Plot No.91, Road No.2,<br>Sri Ram Nagar Colony, Karmanghat,<br>Saroornagar – <span itemprop="postalCode">500035</span></span><br>
-                <span itemprop="addressLocality">Hyderabad</span>,
-                <span itemprop="addressRegion">Telangana</span>, India
-              </address>
+              <i class="fas fa-map-marker-alt" style="margin-top:3px;flex-shrink:0"></i>
+              <div style="line-height:1.8">
+                Plot No.91, Road No.2,<br>
+                Sri Ram Nagar Colony, Karmanghat,<br>
+                Saroornagar – 500035,<br>
+                Hyderabad, Telangana, India
+              </div>
             </div>
           </div>
           <div class="footer-social">
