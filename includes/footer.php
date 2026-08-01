@@ -115,7 +115,7 @@
               ['Home','/'],['About Us','/about.php'],['Company Profile','/about-netsdial.php'],
               ['Our Services','/services.php'],['Gallery','/gallery.php'],['Videos','/videos.php'],
               ['Estimation','/estimation.php'],['Reviews','/reviews.php'],['Blogs','/blogs.php'],
-              ["FAQ's",'/faq.php'],['Contact Us','/contact.php'],['XML Sitemap','/sitemap.php'],
+              ["FAQ's",'/faq.php'],['Contact Us','/contact.php'],
             ];
             foreach ($qlinks as $l): ?>
             <li><a href="<?php echo SITE_URL.$l[1]; ?>"><i class="fas fa-chevron-right"></i> <?php echo $l[0]; ?></a></li>
@@ -215,8 +215,6 @@
         <div class="footer-bottom-links">
           <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
-          <a href="<?php echo SITE_URL; ?>/sitemap.php">Sitemap</a>
-          <a href="<?php echo SITE_URL; ?>/admin/">Admin</a>
         </div>
       </div>
     </div>

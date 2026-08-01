@@ -1517,8 +1517,53 @@ select.form-control { appearance: none; background-image: url("data:image/svg+xm
   .top-bar-right { display: none; }
   .floating-buttons { bottom: 20px; right: 16px; }
   .float-btn { width: 52px; height: 52px; font-size: 1.3rem; }
-  .slide-content { padding: 0 5%; }
-  .hero-slider { min-height: 280px; }
+
+  /* ── Mobile Hero Fix ─────────────────────────────────────── */
+  .hero-slider {
+    aspect-ratio: unset !important;
+    height: 520px !important;
+    min-height: 520px !important;
+    max-height: none !important;
+  }
+  .swiper, .swiper-wrapper, .swiper-slide {
+    height: 520px !important;
+  }
+  .slide-bg {
+    background-size: cover !important;
+    background-position: center center !important;
+  }
+  .slide-content {
+    padding: 0 5% !important;
+    justify-content: flex-end !important;
+    padding-bottom: 32px !important;
+    max-width: 100% !important;
+  }
+  .slide-badge {
+    font-size: 0.68rem !important;
+    padding: 4px 12px !important;
+    margin-bottom: 10px !important;
+  }
+  .slide-title {
+    font-size: 1.55rem !important;
+    margin-bottom: 10px !important;
+    line-height: 1.2 !important;
+  }
+  .slide-text {
+    font-size: 0.82rem !important;
+    margin-bottom: 18px !important;
+    max-width: 100% !important;
+  }
+  .slide-btns {
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+  }
+  .slide-btns .btn {
+    font-size: 0.8rem !important;
+    padding: 9px 16px !important;
+  }
+  .swiper-button-next, .swiper-button-prev {
+    display: none !important;
+  }
 }
 
 /* ── Print ───────────────────────────────────────────────── */
