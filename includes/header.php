@@ -80,19 +80,36 @@ $canonical = SITE_URL . strtok($page_url, '?');
 <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/style.css">
 <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/menu.css">
 
-<!-- Schema.org – Organization / WholesaleStore -->
+<!-- ═══════════════════════════════════════════════════════
+     SCHEMA.ORG – COMPREHENSIVE STRUCTURED DATA
+     Feeds Google Gemini, ChatGPT, Perplexity, Grok, Claude
+════════════════════════════════════════════════════════ -->
+
+<!-- 1. Organization + LocalBusiness (Primary Entity) -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": ["Organization", "Store"],
+  "@type": ["LocalBusiness", "Store", "Organization"],
+  "@id": "<?php echo SITE_URL; ?>/#organization",
   "name": "NetsDial",
-  "alternateName": ["GCM Enterprises", "Russea™ Net Suppliers", "NetsDial Hyderabad"],
+  "legalName": "GCM Enterprises",
+  "alternateName": ["GCM Enterprises", "NetsDial Hyderabad", "Russea Net Suppliers", "NetsDial Safety Nets"],
+  "description": "India's largest Russea™ HDPE net wholesale supplier and dealer. NetsDial by GCM Enterprises supplies pigeon nets, balcony safety nets, bird control nets, cricket practice nets, invisible grills, artificial grass, and provides complete sports ground setup (planning, supply, installation, handover) across all Indian states since 2013.",
   "url": "<?php echo SITE_URL; ?>",
-  "logo": "<?php echo SITE_URL.'/'.$logo_path; ?>",
-  "image": "<?php echo SITE_URL; ?>/assets/images/og-image.jpg",
-  "description": "India's largest wholesale supplier of Russea™ HDPE pigeon nets, balcony safety nets, bird control nets, cricket nets, invisible grills and artificial grass. Managed by GCM Enterprises, Hyderabad. Supplying dealers and businesses PAN India.",
+  "logo": {
+    "@type": "ImageObject",
+    "url": "<?php echo SITE_URL.'/'.$logo_path; ?>",
+    "width": 200,
+    "height": 60
+  },
+  "image": [
+    "<?php echo SITE_URL; ?>/assets/images/sliders/slider-1-safety-nets.jpg",
+    "<?php echo SITE_URL; ?>/assets/images/sliders/slider-5-box-cricket.jpg",
+    "<?php echo SITE_URL; ?>/assets/images/services/pigeon-netting.jpg"
+  ],
   "telephone": "+91<?php echo $site_phone; ?>",
   "email": "<?php echo $site_email; ?>",
+  "foundingDate": "2013",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "Plot No.91, Road Number 2, Sri Ram Nagar Colony, Karmanghat, Saroornagar",
@@ -103,38 +120,179 @@ $canonical = SITE_URL . strtok($page_url, '?');
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": "17.3850",
-    "longitude": "78.4867"
+    "latitude": "17.3338",
+    "longitude": "78.5215"
   },
+  "hasMap": "https://maps.google.com/?q=NetsDial+GCM+Enterprises+Karmanghat+Hyderabad",
   "openingHoursSpecification": [
-    { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], "opens": "09:00", "closes": "20:00" }
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "09:00",
+      "closes": "20:00"
+    },
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": "Sunday",
+      "opens": "10:00",
+      "closes": "17:00"
+    }
   ],
   "priceRange": "₹₹",
-  "areaServed": {
-    "@type": "Country",
-    "name": "India"
-  },
+  "currenciesAccepted": "INR",
+  "paymentAccepted": "Cash, Bank Transfer, UPI, Cheque",
+  "areaServed": [
+    {"@type":"Country","name":"India"},
+    {"@type":"State","name":"Telangana"},
+    {"@type":"State","name":"Andhra Pradesh"},
+    {"@type":"State","name":"Karnataka"},
+    {"@type":"State","name":"Tamil Nadu"},
+    {"@type":"State","name":"Maharashtra"},
+    {"@type":"State","name":"Delhi"}
+  ],
+  "knowsAbout": [
+    "HDPE Safety Nets", "Pigeon Netting", "Bird Control Nets", "Balcony Safety Nets",
+    "Cricket Practice Nets", "Box Cricket Setup", "Invisible Grills", "Artificial Grass",
+    "Sports Ground Construction", "Football Turf Installation", "Net Wholesale Suppliers India"
+  ],
   "hasOfferCatalog": {
     "@type": "OfferCatalog",
-    "name": "Russea™ HDPE Net Products",
+    "name": "Russea™ HDPE Net Products & Services",
     "itemListElement": [
-      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ HDPE Pigeon Nets – Wholesale"}},
-      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Balcony Safety Nets – Wholesale"}},
-      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Cricket Nets – Wholesale"}},
-      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Bird Control Nets – Wholesale"}},
-      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Artificial Grass – Wholesale"}}
+      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ HDPE Pigeon Nets","description":"UV-stabilized HDPE pigeon nets in 30mm, 40mm, 45mm, 50mm mesh. Available in 1.5mm, 2mm, 2.5mm thickness."}},
+      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Balcony Safety Nets","description":"High-strength HDPE balcony safety nets for apartments and high-rise buildings."}},
+      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Cricket Practice Nets","description":"HDPE knotted cricket nets in 40mm, 45mm, 50mm mesh for practice nets and box cricket."}},
+      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Russea™ Bird Control Nets","description":"Anti-bird HDPE nets for commercial buildings, warehouses, solar panels."}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Box Cricket Ground Setup","description":"Complete box cricket ground construction: steel structure, nets, artificial turf, flooring. ₹220–₹300 per sq ft."}},
+      {"@type":"Offer","itemOffered":{"@type":"Service","name":"Football Turf Installation","description":"7-a-side, 5-a-side, 9-a-side football turf ground construction with artificial grass."}},
+      {"@type":"Offer","itemOffered":{"@type":"Product","name":"SS Invisible Grills","description":"Stainless steel vertical wire invisible grill system for balconies. ₹120–₹180 per sq ft."}},
+      {"@type":"Offer","itemOffered":{"@type":"Product","name":"Artificial Grass","description":"25mm to 50mm synthetic grass in single and double layer. ₹30–₹135 per sq ft."}}
     ]
   },
-  "sameAs": [
-    "<?php echo getSetting('facebook_url','#'); ?>",
-    "<?php echo getSetting('instagram_url','#'); ?>",
-    "<?php echo getSetting('youtube_url','#'); ?>"
-  ],
   "brand": {
     "@type": "Brand",
     "name": "Russea™",
-    "description": "Registered trademark HDPE net brand. Braided, Twisted and Knotted HDPE nets."
+    "description": "Russea™ is a registered trademark HDPE net brand. Products include HDPE Braided Nets, HDPE Twisted Nets, and HDPE Knotted Nets – all UV-stabilized and weather-resistant."
+  },
+  "sameAs": [
+    "<?php echo getSetting('facebook_url','https://facebook.com/netsdial'); ?>",
+    "<?php echo getSetting('instagram_url','https://instagram.com/netsdial'); ?>",
+    "<?php echo getSetting('youtube_url','https://youtube.com/@netsdial'); ?>",
+    "<?php echo getSetting('linkedin_url','https://linkedin.com/company/netsdial'); ?>"
+  ],
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+91<?php echo $site_phone; ?>",
+      "contactType": "sales",
+      "areaServed": "IN",
+      "availableLanguage": ["English", "Telugu", "Hindi"],
+      "contactOption": ["TollFree", "HearingImpairedSupported"]
+    },
+    {
+      "@type": "ContactPoint",
+      "telephone": "+91<?php echo $site_phone; ?>",
+      "contactType": "customer service",
+      "areaServed": "IN",
+      "availableLanguage": ["English", "Telugu", "Hindi"]
+    }
+  ],
+  "numberOfEmployees": {"@type":"QuantitativeValue","value": 50},
+  "slogan": "South India's #1 Russea™ HDPE Net Wholesale Supplier – Sales, Supply & Installation PAN India"
+}
+</script>
+
+<!-- 2. WebSite with SearchAction -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": "<?php echo SITE_URL; ?>/#website",
+  "name": "NetsDial – Russea™ Safety Nets Hyderabad",
+  "url": "<?php echo SITE_URL; ?>",
+  "description": "NetsDial is India's largest Russea™ HDPE net wholesale dealer. Pigeon nets, safety nets, cricket nets, invisible grills, artificial grass, box cricket & football turf setup. PAN India supply from Hyderabad.",
+  "publisher": {"@id": "<?php echo SITE_URL; ?>/#organization"},
+  "inLanguage": "en-IN",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": "<?php echo SITE_URL; ?>/services.php?q={search_term_string}"
+    },
+    "query-input": "required name=search_term_string"
   }
+}
+</script>
+
+<!-- 3. FAQPage – feeds Google rich results and AI Q&A -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is NetsDial?",
+      "acceptedAnswer": {"@type":"Answer","text":"NetsDial is India's largest Russea™ HDPE net wholesale supplier and dealer, managed by GCM Enterprises, headquartered in Karmanghat, Hyderabad, Telangana. We supply pigeon nets, safety nets, cricket practice nets, invisible grills, artificial grass, and provide complete sports ground setup services PAN India since 2013."}
+    },
+    {
+      "@type": "Question",
+      "name": "What types of nets does NetsDial supply?",
+      "acceptedAnswer": {"@type":"Answer","text":"NetsDial supplies Russea™ brand HDPE Braided Nets, HDPE Twisted Nets, and HDPE Knotted Nets including: pigeon nets, balcony safety nets, bird control nets, cricket practice nets, box cricket nets, sports practice nets, anti-bird nets, children safety nets, construction safety nets, and more."}
+    },
+    {
+      "@type": "Question",
+      "name": "How much does pigeon net installation cost in Hyderabad?",
+      "acceptedAnswer": {"@type":"Answer","text":"Pigeon net cost in Hyderabad: Below 100 sq ft is ₹1,500 flat (with installation). For 100–250 sq ft: ₹16–₹30 per sq ft. For 250–500 sq ft: ₹14–₹26 per sq ft. For 500–1,000 sq ft: ₹12–₹24 per sq ft. For 1,000–5,000 sq ft: ₹10–₹20 per sq ft. Call +91 9966499144 for exact pricing."}
+    },
+    {
+      "@type": "Question",
+      "name": "Does NetsDial do installation or only supply?",
+      "acceptedAnswer": {"@type":"Answer","text":"NetsDial provides complete sales, supply, and installation services for all safety nets, bird nets, invisible grills, and cloth hangers. For sports projects (box cricket, football turf), we provide end-to-end ground setup including planning, civil coordination, net supply, installation, and full handover."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Russea™ brand?",
+      "acceptedAnswer": {"@type":"Answer","text":"Russea™ is a registered trademark HDPE net brand supplied exclusively by NetsDial (GCM Enterprises). All Russea™ nets are UV-stabilized, weather-resistant, and available in Braided, Twisted, and Knotted varieties in multiple mesh sizes (30mm, 40mm, 45mm, 50mm) and thicknesses (1.5mm, 2mm, 2.5mm, 3mm)."}
+    },
+    {
+      "@type": "Question",
+      "name": "Does NetsDial serve cities outside Hyderabad?",
+      "acceptedAnswer": {"@type":"Answer","text":"Yes. NetsDial serves PAN India – all 28 states and 8 Union Territories. Primary markets include Hyderabad, Visakhapatnam, Vijayawada, Tirupati, Warangal, Karimnagar, Bengaluru, Chennai, Mumbai, Pune, Delhi NCR, and all other Indian cities. We have 10,000+ dealer partners across India."}
+    },
+    {
+      "@type": "Question",
+      "name": "How much does box cricket ground setup cost?",
+      "acceptedAnswer": {"@type":"Answer","text":"Box cricket complete ground setup (including net, grass, steel structure, and flooring) costs ₹220–₹300 per sq ft. The price depends on ground size and structure height (20ft, 25ft, 30ft, 35ft, 40ft). Call +91 9966499144 for a detailed estimate."}
+    },
+    {
+      "@type": "Question",
+      "name": "How much do invisible grills cost in Hyderabad?",
+      "acceptedAnswer": {"@type":"Answer","text":"Invisible grill cost in Hyderabad: 1.5mm SS wire – ₹120–₹150 per sq ft. 2mm SS wire – ₹130–₹160 per sq ft. 2.5mm SS wire – ₹140–₹170 per sq ft. 3mm SS wire – ₹150–₹180 per sq ft. Available in 2-inch and 3-inch line gap options. Call +91 9966499144 for exact pricing."}
+    },
+    {
+      "@type": "Question",
+      "name": "How do I contact NetsDial?",
+      "acceptedAnswer": {"@type":"Answer","text":"Contact NetsDial at: Phone/WhatsApp: +91 9966499144. Email: contact@netsdial.com. Address: Plot No.91, Road No.2, Sri Ram Nagar Colony, Karmanghat, Saroornagar – 500035, Hyderabad, Telangana, India. Business hours: Monday–Saturday 9 AM – 8 PM, Sunday 10 AM – 5 PM."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is artificial grass price per sq ft in Hyderabad?",
+      "acceptedAnswer": {"@type":"Answer","text":"Artificial grass price in Hyderabad: 25mm Single Layer – ₹30–₹40 per sq ft. 30mm Single Layer – ₹33–₹43 per sq ft. 40mm Single Layer – ₹36–₹46 per sq ft. 50mm Double Layer – ₹45–₹55 per sq ft. Football Grass (50mm Double) – ₹75–₹100 per sq ft. Sports Turf (25mm) – ₹95–₹135 per sq ft. Call +91 9966499144 for best price."}
+    }
+  ]
+}
+</script>
+
+<!-- 4. BreadcrumbList for current page -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type":"ListItem","position":1,"name":"NetsDial Home","item":"<?php echo SITE_URL; ?>/"},
+    {"@type":"ListItem","position":2,"name":"<?php echo htmlspecialchars($page_title ?? 'Services'); ?>","item":"<?php echo SITE_URL . '/' . ltrim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/'); ?>"}
+  ]
 }
 </script>
 

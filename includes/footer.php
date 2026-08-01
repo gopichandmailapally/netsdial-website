@@ -112,10 +112,10 @@
           <ul class="footer-links">
             <?php
             $qlinks = [
-              ['Home','/'],['About Us','/about.php'],['Our Services','/services.php'],
-              ['Gallery','/gallery.php'],['Videos','/videos.php'],['Estimation','/estimation.php'],
-              ['Reviews','/reviews.php'],['Blogs','/blogs.php'],["FAQ's",'/faq.php'],
-              ['Contact Us','/contact.php'],['Admin Panel','/admin/'],['XML Sitemap','/sitemap.php'],
+              ['Home','/'],['About Us','/about.php'],['Company Profile','/about-netsdial.php'],
+              ['Our Services','/services.php'],['Gallery','/gallery.php'],['Videos','/videos.php'],
+              ['Estimation','/estimation.php'],['Reviews','/reviews.php'],['Blogs','/blogs.php'],
+              ["FAQ's",'/faq.php'],['Contact Us','/contact.php'],['XML Sitemap','/sitemap.php'],
             ];
             foreach ($qlinks as $l): ?>
             <li><a href="<?php echo SITE_URL.$l[1]; ?>"><i class="fas fa-chevron-right"></i> <?php echo $l[0]; ?></a></li>

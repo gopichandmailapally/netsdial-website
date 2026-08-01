@@ -23,8 +23,22 @@ if (isset($_GET['page'])) {
 
     if ($page === 1) {
         // Main pages on first sitemap
-        foreach (['/', '/about.php', '/faq.php', '/estimation.php', '/gallery.php', '/videos.php', '/reviews.php', '/blogs.php', '/contact.php'] as $p) {
-            $urls[] = ['loc' => $base . $p, 'pri' => '1.0', 'cf' => 'weekly'];
+        $main_pages = [
+            '/'                  => ['1.0', 'daily'],
+            '/about.php'         => ['0.9', 'weekly'],
+            '/about-netsdial.php'=> ['0.9', 'weekly'],
+            '/faq.php'           => ['0.8', 'weekly'],
+            '/estimation.php'    => ['0.9', 'weekly'],
+            '/gallery.php'       => ['0.7', 'weekly'],
+            '/videos.php'        => ['0.7', 'weekly'],
+            '/reviews.php'       => ['0.8', 'weekly'],
+            '/blogs.php'         => ['0.8', 'daily'],
+            '/contact.php'       => ['0.9', 'weekly'],
+            '/services.php'      => ['0.9', 'weekly'],
+            '/llms.txt'          => ['0.5', 'monthly'],
+        ];
+        foreach ($main_pages as $p => [$pri, $cf]) {
+            $urls[] = ['loc' => $base . $p, 'pri' => $pri, 'cf' => $cf];
         }
         $blogs = db()->fetchAll("SELECT slug, updated_at FROM blogs WHERE status='published' ORDER BY updated_at DESC LIMIT 500");
         foreach ($blogs as $b) {

@@ -86,6 +86,10 @@ $live_visitors   = db()->fetchOne("SELECT COUNT(*) as cnt FROM visitors WHERE is
       <i class="fas fa-drafting-compass"></i><span>Floor Plan Builder</span>
     </a>
 
+    <a href="/admin/ai-listings.php" class="nav-item <?php echo $current === 'ai-listings.php' ? 'active' : ''; ?>">
+      <i class="fas fa-robot"></i><span>AI & Directory Listings</span>
+    </a>
+
     <div class="nav-section-title">Site Management</div>
     <a href="/admin/seo.php" class="nav-item <?php echo $current === 'seo.php' ? 'active' : ''; ?>">
       <i class="fas fa-search"></i><span>SEO Manager</span>

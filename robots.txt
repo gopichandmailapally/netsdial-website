@@ -1,0 +1,152 @@
+# ====================================================
+# NetsDial (GCM Enterprises) – robots.txt
+# Website: https://netsdial.com
+# ====================================================
+
+# ── Allow all standard search engine crawlers ──────
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+Crawl-delay: 1
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+Crawl-delay: 2
+
+User-agent: Slurp
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+
+# ── AI Platform Crawlers – ALL ALLOWED ─────────────
+# ChatGPT / OpenAI
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Google Gemini / AI Overviews
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic / Claude AI
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# xAI / Grok
+User-agent: Grokbot
+Allow: /
+
+User-agent: xAI-API
+Allow: /
+
+# DeepSeek AI
+User-agent: DeepSeek
+Allow: /
+
+User-agent: DeepSeekBot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# Meta AI / Llama
+User-agent: FacebookBot
+Allow: /
+
+User-agent: Meta-ExternalAgent
+Allow: /
+
+# Microsoft Copilot
+User-agent: BingPreview
+Allow: /
+
+# You.com AI
+User-agent: YouBot
+Allow: /
+
+# Common Crawl (used to train GPT, many LLMs)
+User-agent: CCBot
+Allow: /
+
+# Diffbot (used by AI knowledge graphs)
+User-agent: Diffbot
+Allow: /
+
+# Allen Institute AI
+User-agent: AI2Bot
+Allow: /
+
+# Omgili (AI data provider)
+User-agent: Omgilibot
+Allow: /
+
+# Bytespider (ByteDance / TikTok AI)
+User-agent: Bytespider
+Allow: /
+
+# Huawei AI
+User-agent: PetalBot
+Allow: /
+
+# Apple / Siri
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Amazon Alexa
+User-agent: Amazonbot
+Allow: /
+
+# ── Default: Block only admin/internal paths ────────
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+Disallow: /api/contact.php
+Disallow: /api/review.php
+Crawl-delay: 1
+
+# ── Sitemaps ────────────────────────────────────────
+Sitemap: https://netsdial.com/sitemap.php
+Sitemap: https://netsdial.com/sitemap.php?page=1
+Sitemap: https://netsdial.com/sitemap.php?page=2
+Sitemap: https://netsdial.com/sitemap.php?page=3
+Sitemap: https://netsdial.com/sitemap.php?page=4
+Sitemap: https://netsdial.com/sitemap.php?page=5
