@@ -383,9 +383,17 @@ include __DIR__ . '/includes/header.php';
         $meta = $service_meta[$svc['slug']] ?? ['fa-network-wired','linear-gradient(135deg,#1a1a1a,#333,#1a1a1a)','#FF6B00'];
       ?>
       <div class="service-card" data-aos="fade-up">
-        <div class="service-card-img-wrap" style="background:<?php echo $meta[1]; ?>;min-height:180px;display:flex;align-items:center;justify-content:center;position:relative;">
-          <i class="fas <?php echo $meta[0]; ?>" style="font-size:3.5rem;color:<?php echo $meta[2]; ?>;opacity:0.9;z-index:1;"></i>
-          <span class="service-card-badge" style="position:absolute;top:10px;right:10px"><?php echo htmlspecialchars($svc['category']); ?></span>
+        <div class="service-card-img-wrap" style="min-height:200px;position:relative;overflow:hidden;background:<?php echo $meta[1]; ?>;">
+          <img src="<?php echo SITE_URL; ?>/assets/images/services/<?php echo htmlspecialchars($svc['slug']); ?>.jpg"
+               alt="<?php echo htmlspecialchars($svc['name']); ?> in Hyderabad"
+               style="width:100%;height:200px;object-fit:cover;display:block;transition:transform .5s ease;"
+               loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;position:absolute;inset:0;background:<?php echo $meta[1]; ?>;align-items:center;justify-content:center;">
+            <i class="fas <?php echo $meta[0]; ?>" style="font-size:3.5rem;color:<?php echo $meta[2]; ?>;opacity:0.9;"></i>
+          </div>
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);pointer-events:none;"></div>
+          <span class="service-card-badge" style="position:absolute;top:10px;right:10px;z-index:2"><?php echo htmlspecialchars($svc['category']); ?></span>
         </div>
         <div class="service-card-body">
           <h3><?php echo htmlspecialchars($svc['name']); ?> - Hyderabad</h3>
@@ -412,12 +420,22 @@ include __DIR__ . '/includes/header.php';
   <div class="container">
     <div class="about-grid">
       <div class="about-img-wrap" data-aos="fade-right">
-        <div style="background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);border-radius:16px;width:100%;min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;">
-          <i class="fas fa-network-wired" style="font-size:5rem;color:#4ecdc4;opacity:0.9;"></i>
-          <div style="text-align:center;color:#fff;">
-            <h3 style="color:#FF8C42;font-size:1.4rem;margin-bottom:4px;">NetsDial</h3>
-            <p style="opacity:0.85;font-size:0.95rem;">Russea™ HDPE Net Wholesale Suppliers</p>
-            <p style="opacity:0.7;font-size:0.85rem;">Managed by GCM Enterprises, Hyderabad</p>
+        <div style="border-radius:16px;width:100%;min-height:320px;overflow:hidden;position:relative;">
+          <img src="<?php echo SITE_URL; ?>/assets/images/services/sports-practice-nets.jpg"
+               alt="NetsDial GCM Enterprises - Russea™ Net Suppliers Hyderabad"
+               style="width:100%;height:340px;object-fit:cover;border-radius:16px;"
+               loading="lazy"
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div style="display:none;background:linear-gradient(135deg,#0f2027 0%,#203a43 50%,#2c5364 100%);border-radius:16px;width:100%;min-height:320px;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:32px;">
+            <i class="fas fa-network-wired" style="font-size:5rem;color:#4ecdc4;opacity:0.9;"></i>
+            <div style="text-align:center;color:#fff;">
+              <h3 style="color:#FF8C42;font-size:1.4rem;margin-bottom:4px;">NetsDial</h3>
+              <p style="opacity:0.85;font-size:0.95rem;">Russea™ HDPE Net Wholesale Suppliers</p>
+              <p style="opacity:0.7;font-size:0.85rem;">Managed by GCM Enterprises, Hyderabad</p>
+            </div>
+          </div>
+          <div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,.65),transparent);padding:20px;border-radius:0 0 16px 16px;">
+            <p style="color:#fff;font-size:0.9rem;margin:0;font-weight:600;"><i class="fas fa-award" style="color:#FF8C42"></i>&nbsp; Russea™ Authorised Wholesale Dealers – Since 2013</p>
           </div>
         </div>
         <div class="about-badge-float">
