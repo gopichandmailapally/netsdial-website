@@ -57,20 +57,19 @@
         <!-- Company -->
         <div class="footer-col footer-about">
           <a href="<?php echo SITE_URL; ?>/" class="footer-logo">
-            <img src="<?php echo SITE_URL.'/'.getSetting('footer_logo_path','assets/images/logo.png'); ?>"
+            <img src="<?php echo SITE_URL.'/'.getSetting('footer_logo_path','assets/images/logo-white.png'); ?>"
                  alt="NetsDial Russea™ Net Suppliers" width="180" height="55" loading="lazy"
-                 onerror="this.src='<?php echo SITE_URL; ?>/assets/images/logo.png'">
+                 onerror="this.src='<?php echo SITE_URL; ?>/assets/images/logo-white.png'">
           </a>
           <div class="footer-brand-badge">
             <i class="fas fa-trademark"></i> Official Russea™ Wholesale Supplier
           </div>
           <p>
             <strong>NetsDial</strong>, managed by <strong>GCM Enterprises</strong>, is India's largest
-            wholesale supplier of <strong>Russea™</strong> HDPE nets. We supply Russea™ branded HDPE
-            Braided Nets, HDPE Twisted Nets, HDPE Knotted Nets — pigeon control, balcony safety, bird
-            control, cricket nets, invisible grills and artificial grass — to dealers and businesses
-            across all 28 states of India. <em>We are wholesale suppliers, not installers.</em>
-            Largest net supplier from South India.
+            wholesale supplier of <strong>Russea™</strong> HDPE nets. We offer sales, supply and installation
+            of HDPE Braided, Twisted &amp; Knotted Nets — pigeon control, balcony safety, bird control,
+            cricket nets, invisible grills, artificial grass and complete sports ground setup across all
+            28 states of India. Largest net supplier from South India.
           </p>
           <div class="footer-contact-info">
             <a href="tel:+91<?php echo SITE_PHONE; ?>" itemprop="telephone">
@@ -79,12 +78,13 @@
             <a href="mailto:<?php echo SITE_EMAIL; ?>" itemprop="email">
               <i class="fas fa-envelope"></i> <?php echo SITE_EMAIL; ?>
             </a>
-            <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress">
-              <i class="fas fa-map-marker-alt"></i>
-              <span itemprop="streetAddress">Plot No.91, Road No.2, Sri Ram Nagar Colony, Karmanghat, Saroornagar</span>,
-              <span itemprop="addressLocality">Hyderabad</span> –
-              <span itemprop="postalCode">500035</span>,
-              <span itemprop="addressRegion">Telangana</span>, India
+            <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" style="display:flex;align-items:flex-start;gap:8px">
+              <i class="fas fa-map-marker-alt" style="margin-top:3px;flex-shrink:0"></i>
+              <span>
+                <span itemprop="streetAddress">Plot No.91, Road No.2, Sri Ram Nagar Colony, Karmanghat, Saroornagar</span>,
+                <span itemprop="addressLocality">Hyderabad</span> – <span itemprop="postalCode">500035</span>,
+                <span itemprop="addressRegion">Telangana</span>, India
+              </span>
             </span>
           </div>
           <div class="footer-social">
