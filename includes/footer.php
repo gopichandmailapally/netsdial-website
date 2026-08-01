@@ -57,9 +57,10 @@
         <!-- Company -->
         <div class="footer-col footer-about">
           <a href="<?php echo SITE_URL; ?>/" class="footer-logo">
-            <img src="<?php echo SITE_URL.'/'.getSetting('footer_logo_path','assets/images/logo-white.png'); ?>"
+            <img src="<?php echo SITE_URL; ?>/assets/images/logo-white.png"
                  alt="NetsDial Russea™ Net Suppliers" width="180" height="55" loading="lazy"
-                 onerror="this.src='<?php echo SITE_URL; ?>/assets/images/logo-white.png'">
+                 style="filter:brightness(0) invert(1)"
+                 onerror="this.removeAttribute('onerror');this.src='<?php echo SITE_URL; ?>/assets/images/logo.png';this.style.filter='brightness(0) invert(1)'">
           </a>
           <div class="footer-brand-badge">
             <i class="fas fa-trademark"></i> Official Russea™ Wholesale Supplier
@@ -78,14 +79,14 @@
             <a href="mailto:<?php echo SITE_EMAIL; ?>" itemprop="email">
               <i class="fas fa-envelope"></i> <?php echo SITE_EMAIL; ?>
             </a>
-            <span itemprop="address" itemscope itemtype="https://schema.org/PostalAddress" style="display:flex;align-items:flex-start;gap:8px">
-              <i class="fas fa-map-marker-alt" style="margin-top:3px;flex-shrink:0"></i>
-              <span>
-                <span itemprop="streetAddress">Plot No.91, Road No.2, Sri Ram Nagar Colony, Karmanghat, Saroornagar</span>,
-                <span itemprop="addressLocality">Hyderabad</span> – <span itemprop="postalCode">500035</span>,
+            <div style="display:flex;align-items:flex-start;gap:8px">
+              <i class="fas fa-map-marker-alt" style="margin-top:4px;flex-shrink:0"></i>
+              <address style="font-style:normal;line-height:1.75" itemscope itemtype="https://schema.org/PostalAddress">
+                <span itemprop="streetAddress">Plot No.91, Road No.2,<br>Sri Ram Nagar Colony, Karmanghat,<br>Saroornagar – <span itemprop="postalCode">500035</span></span><br>
+                <span itemprop="addressLocality">Hyderabad</span>,
                 <span itemprop="addressRegion">Telangana</span>, India
-              </span>
-            </span>
+              </address>
+            </div>
           </div>
           <div class="footer-social">
             <a href="<?php echo getSetting('facebook_url','#'); ?>" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
