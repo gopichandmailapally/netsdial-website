@@ -21,13 +21,13 @@ define('UPLOADS_URL', SITE_URL . '/uploads');
 define('SITE_PHONE', '9966499144');
 define('SITE_PHONE_LINK', 'tel:+919966499144');
 define('SITE_WHATSAPP', 'https://wa.me/919966499144');
-define('SITE_EMAIL', 'netsdial@gmail.com');
-define('SITE_EMAIL_LINK', 'mailto:netsdial@gmail.com');
+define('SITE_EMAIL', 'contact@netsdial.com');
+define('SITE_EMAIL_LINK', 'mailto:contact@netsdial.com');
 define('COMPANY_NAME', 'GCM Enterprises');
 define('BRAND_NAME', 'Russea™');
 define('TRADEMARK', 'Russea™');
-define('BRAND_TAGLINE', 'India\'s Largest Wholesale Russea™ HDPE Net Suppliers | South India #1');
-define('WHOLESALE_MSG', 'Wholesale Russea™ HDPE Net Suppliers | PAN India Delivery | Largest from South India');
+define('BRAND_TAGLINE', 'Sports Ground Sales · Supply · Installation · Planning & Complete Ground Setup | Russea™ HDPE Nets | South India #1');
+define('WHOLESALE_MSG', 'Russea™ Sports Nets – Sales, Supply, Installation, Ground Planning & Complete Setup | PAN India | GCM Enterprises');
 define('SITE_ADDRESS', 'Plot No.91, Road Number 2, Sri Ram Nagar Colony, Karmanghat, Saroornagar - 500035, Hyderabad, Telangana, India');
 
 // ── Load Database ─────────────────────────────────────────────

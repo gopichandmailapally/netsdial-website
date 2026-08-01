@@ -43,8 +43,13 @@ $state_name   = $district['state'] ?? 'India';
 $page_title_base = $keyword_name . ' in ' . $area_name . ', ' . $city_name;
 
 // SEO – rich, wholesale-focused meta (city-specific, not locked to Hyderabad)
-$page_title       = $page_title_base . ' | Russea™ HDPE Net Wholesale Supplier | NetsDial';
-$page_description = "Buy Russea™ branded {$keyword_name} in {$area_name}, {$city_name}, {$state_name} — wholesale prices from NetsDial by GCM Enterprises, Hyderabad. India's largest Russea™ HDPE net supplier from South India. HDPE Braided, Twisted & Knotted nets. Call +91 9966499144 for bulk pricing.";
+$is_sports = ($keyword['category'] === 'Sports & Recreation');
+$page_title = $page_title_base . ($is_sports
+  ? ' | Ground Setup, Planning & Supply | NetsDial'
+  : ' | Sales, Supply & Installation | NetsDial');
+$page_description = $is_sports
+  ? "Complete {$keyword_name} solution in {$area_name}, {$city_name} — ground planning, supply of Russea™ HDPE nets, installation and full setup by NetsDial (GCM Enterprises). Call +91 9966499144 for project pricing."
+  : "Russea™ {$keyword_name} sales, supply & installation in {$area_name}, {$city_name}, {$state_name}. NetsDial by GCM Enterprises — India's largest Russea™ HDPE net provider from South India. HDPE Braided, Twisted & Knotted nets. Call +91 9966499144.";
 
 // City-specific meta keywords (covers current city + nearby + Hyderabad as HQ)
 $page_keywords = strtolower(
@@ -166,8 +171,9 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
       <?php echo htmlspecialchars($city_name); ?>
     </h1>
     <p style="color:rgba(255,255,255,.85);font-size:1rem;margin-bottom:24px;max-width:680px;margin-inline:auto">
-      Russea™ HDPE <?php echo htmlspecialchars($keyword_name); ?> — Wholesale prices from India's largest net supplier.
-      GCM Enterprises, Hyderabad. Supplying dealers &amp; businesses across India.
+      <?php echo $is_sports ? 'Complete ground planning, supply &amp; installation of' : 'Sales, supply &amp; installation of'; ?>
+      <strong>Russea™ <?php echo htmlspecialchars($keyword_name); ?></strong> in <?php echo htmlspecialchars($area_name); ?>.
+      GCM Enterprises, Hyderabad — serving all of India.
     </p>
     <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
       <a href="tel:+91<?php echo SITE_PHONE; ?>" class="btn btn-primary btn-lg">
@@ -247,9 +253,16 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
             UV stabilized and designed for long-term performance in India's climate conditions.
           </p>
           <br>
-          <p><strong>We are net suppliers, not installers.</strong> We supply to local dealers, installation contractors,
-          builders and bulk buyers across <?php echo htmlspecialchars($state_name); ?>. Our Russea™ brand covers
-          HDPE Braided Nets, HDPE Twisted Nets and HDPE Knotted Nets — the three main construction methods for premium netting.</p>
+          <?php if ($is_sports): ?>
+          <p>We offer <strong>complete sports ground solutions</strong> — from initial site planning and floor plan design, to
+          net supply, installation and full ground setup. Whether it's a box cricket cage, football turf or cricket practice
+          nets, NetsDial handles the entire project from concept to completion across <?php echo htmlspecialchars($state_name); ?>.</p>
+          <?php else: ?>
+          <p>NetsDial covers the complete cycle — <strong>sales, supply and installation</strong> of Russea™ branded nets
+          for residential, commercial and industrial properties across <?php echo htmlspecialchars($state_name); ?>.
+          Our Russea™ brand covers HDPE Braided Nets, HDPE Twisted Nets and HDPE Knotted Nets — the three main construction
+          methods for premium netting.</p>
+          <?php endif; ?>
           <br>
           <?php
           // Unique state-specific paragraph for SEO differentiation
@@ -289,7 +302,7 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
             <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Wholesale pricing — best rates for <?php echo htmlspecialchars($city_name); ?>, <?php echo htmlspecialchars($state_name); ?></li>
             <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Fast delivery to <?php echo htmlspecialchars($area_name); ?> &amp; all <?php echo htmlspecialchars($city_name); ?> areas</li>
             <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;GST invoices &amp; warranty cards with every order</li>
-            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;South India's largest net supplier — 10,000+ dealers PAN India</li>
+            <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;<?php echo $is_sports ? 'Complete ground setup: planning → supply → installation → handover' : 'Sales, supply &amp; installation — South India\'s largest net provider'; ?></li>
             <li><i class="fas fa-check-circle" style="color:var(--success)"></i> &nbsp;Bulk orders welcome — special rates for <?php echo htmlspecialchars($state_name); ?> dealers</li>
           </ul>
         </div>
@@ -386,7 +399,7 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
             ["What is the price of {$keyword_name} in {$area_name}?", "The price of {$keyword_name} in {$area_name}, {$city_name} depends on the quantity and specifications. For below 100 sqft, starting from ₹1500. For 100-250 sqft: ₹16-30/sqft. Contact us for exact pricing based on your requirements."],
             ["Do you supply {$keyword_name} to {$area_name}?", "Yes! NetsDial supplies premium Russea™ {$keyword_name} to {$area_name} and all areas of {$city_name}. Delivery within 1-3 working days."],
             ["Is Russea™ brand {$keyword_name} good quality?", "Russea™ is India's trusted HDPE net brand. All Russea™ {$keyword_name} are UV stabilized, weather resistant and high-strength. Life expectancy: 5-10 years."],
-            ["Can I get {$keyword_name} installation in {$city_name}?", "We are primarily wholesale suppliers. We can guide you to professional installation partners in {$area_name}. For bulk orders, installation assistance is available in Hyderabad."],
+            ["Can I get {$keyword_name} installation in {$city_name}?", "Yes! NetsDial offers sales, supply and installation of {$keyword_name} across {$city_name}. For sports grounds, we provide complete setup including planning, fabrication and installation. Call +91 9966499144 for a site visit and quotation."],
             ["Do you provide warranty for {$keyword_name}?", "Yes! Russea™ {$keyword_name} comes with manufacturer warranty. Warranty cards can be generated for all purchases. Contact us for warranty details."],
           ];
           foreach ($faqs_service as $faq):

@@ -99,7 +99,7 @@ body{font-family:Arial,sans-serif;color:#333;margin:0;padding:0;background:#f5f5
     <div class='field'><span class='label'>Time</span><span class='value'>" . date('d M Y, h:i A') . " IST</span></div>
     <center><a href='" . SITE_URL . "/admin/contacts.php' class='cta'>View in Admin Panel</a></center>
   </div>
-  <div class='footer'>NetsDial | GCM Enterprises | netsdial@gmail.com | +91 9966499144</div>
+  <div class='footer'>NetsDial | GCM Enterprises | contact@netsdial.com | +91 9966499144</div>
 </div>
 </body></html>
 ";

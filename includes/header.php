@@ -7,7 +7,7 @@ $page_url     = $_SERVER['REQUEST_URI'] ?? '/';
 // Settings
 $site_name    = getSetting('site_name', 'NetsDial');
 $site_phone   = getSetting('site_phone', '9966499144');
-$site_email   = getSetting('site_email', 'netsdial@gmail.com');
+$site_email   = getSetting('site_email', 'contact@netsdial.com');
 $logo_path    = getSetting('logo_path', 'assets/images/logo.png');
 $favicon_path = getSetting('favicon_path', 'assets/images/favicon.png');
 
@@ -181,7 +181,7 @@ $canonical = SITE_URL . strtok($page_url, '?');
 <div class="marquee-bar">
   <div class="marquee-content" aria-hidden="true">
     <?php
-    $marquee_default = '🏆 India\'s Largest Russea™ HDPE Net Wholesale Supplier &nbsp;|&nbsp; 🚛 PAN India Delivery &nbsp;|&nbsp; 🏅 Russea™ Authorised Wholesale Dealers &nbsp;|&nbsp; 🏏 Largest Cricket Net Suppliers from South India &nbsp;|&nbsp; 🛡️ HDPE Braided, Twisted &amp; Knotted Nets &nbsp;|&nbsp; 📞 Call +91 9966499144 for Wholesale Pricing &nbsp;|&nbsp; 🌐 Supplying All 28 States &amp; UTs &nbsp;|&nbsp; ⚡ 10,000+ Dealer Network PAN India &nbsp;|&nbsp; 🏆 GCM Enterprises – Trusted Since 2013';
+    $marquee_default = '🏆 Sports Nets Sales · Supply · Installation · Ground Planning &amp; Setup &nbsp;|&nbsp; 🚛 PAN India Delivery – All 28 States &nbsp;|&nbsp; 🏅 Russea™ Authorised Wholesale Dealers &nbsp;|&nbsp; 🏟️ Complete Sports Ground Setup – Box Cricket · Football Turf · Cricket Practice Nets &nbsp;|&nbsp; 🛡️ HDPE Braided, Twisted &amp; Knotted Nets &nbsp;|&nbsp; 📞 Call +91 9966499144 &nbsp;|&nbsp; 📧 contact@netsdial.com &nbsp;|&nbsp; 🏏 Largest Cricket Net Suppliers from South India &nbsp;|&nbsp; ⚡ 10,000+ Dealer Network PAN India &nbsp;|&nbsp; 🏆 GCM Enterprises – Trusted Since 2013';
     $marquee_text = getSetting('marquee_text', $marquee_default);
     ?>
     <span><?php echo $marquee_text; ?></span>
