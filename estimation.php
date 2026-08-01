@@ -556,6 +556,265 @@ function calculateBoxCricket() {
 
 
 <!-- ═══════════════════════════════════════════════════════════════
+     PUBLISHED FLOOR PLANS – Sample Ground Layouts
+════════════════════════════════════════════════════════════════ -->
+<?php
+$pub_plans = db()->fetchAll("SELECT * FROM floor_plans WHERE is_published=1 ORDER BY sort_order, is_template DESC, created_at DESC LIMIT 12");
+if (!empty($pub_plans)):
+$plan_type_labels = [
+  'football-5'=>'5-a-Side Football','football-6'=>'6-a-Side Football','football-7'=>'7-a-Side Football',
+  'football-9'=>'9-a-Side Football','football-11'=>'11-a-Side Football',
+  'box-cricket-cage'=>'Box Cricket – Full Cage','box-cricket-open'=>'Box Cricket – Open Top',
+  'box-cricket-rooftop'=>'Box Cricket – Rooftop','box-cricket-indoor'=>'Box Cricket – Indoor',
+  'multi-lane'=>'Multi-Lane Twin Setup','custom'=>'Custom Layout'
+];
+$plan_colors = [
+  'football-5'=>'#3b82f6','football-6'=>'#8b5cf6','football-7'=>'#f59e0b','football-9'=>'#ec4899',
+  'football-11'=>'#dc2626','box-cricket-cage'=>'#f97316','box-cricket-open'=>'#0ea5e9',
+  'box-cricket-rooftop'=>'#8b5cf6','box-cricket-indoor'=>'#10b981','multi-lane'=>'#6366f1','custom'=>'#64748b'
+];
+?>
+<section class="section" style="background:#fff;padding-top:60px;padding-bottom:60px">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:40px" data-aos="fade-up">
+      <span class="section-badge"><i class="fas fa-drafting-compass"></i> Ground Floor Plans</span>
+      <h2 style="margin:12px 0">Sample Ground Layouts &amp; Dimensions</h2>
+      <p style="color:var(--text-light);max-width:600px;margin-inline:auto">
+        Standard floor plans for commercial sports turf setups. Use these as reference for your project.
+        We can create a custom plan for your exact site dimensions.
+      </p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px">
+      <?php foreach ($pub_plans as $p):
+        $clr = $plan_colors[$p['ground_type']] ?? '#64748b';
+        $lbl = $plan_type_labels[$p['ground_type']] ?? 'Custom';
+        $L = (float)$p['length_ft']; $W = (float)$p['width_ft']; $H = (float)$p['height_ft'];
+        $sqft = $L * $W;
+        $isCricket = strpos($p['ground_type'], 'box-cricket') !== false || $p['ground_type'] === 'multi-lane';
+        $isCage    = in_array($p['ground_type'], ['box-cricket-cage','box-cricket-rooftop']);
+        // Compute SVG preview coords
+        $ratio = ($L > 0 && $W > 0) ? $L/$W : 2;
+        $svgW2 = 280; $svgH2 = 140;
+        if ($ratio > $svgW2/$svgH2) { $pw2 = $svgW2-30; $ph2 = round(($svgW2-30)/$ratio); }
+        else { $ph2 = $svgH2-20; $pw2 = round(($svgH2-20)*$ratio); }
+        $ox2 = (280-$pw2)/2; $oy2 = (140-$ph2)/2;
+      ?>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;transition:box-shadow .2s;cursor:pointer"
+           onmouseover="this.style.boxShadow='0 8px 30px rgba(0,0,0,.1)'" onmouseout="this.style.boxShadow=''"
+           onclick="openPlanModal(<?php echo htmlspecialchars(json_encode($p)); ?>)">
+
+        <!-- SVG Preview -->
+        <div style="background:#e8f5e9;padding:12px">
+          <svg viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:140px;display:block">
+            <?php
+            echo "<rect x='$ox2' y='$oy2' width='$pw2' height='$ph2' fill='#4ade80' rx='4' stroke='#16a34a' stroke-width='2'/>";
+            $cx2 = $ox2+$pw2/2; $cy2 = $oy2+$ph2/2;
+            if (!$isCricket) {
+              echo "<circle cx='$cx2' cy='$cy2' r='" . round($ph2*.2) . "' fill='none' stroke='#fff' stroke-width='1.5'/>";
+              echo "<line x1='$cx2' y1='$oy2' x2='$cx2' y2='" . ($oy2+$ph2) . "' stroke='#fff' stroke-width='1.5'/>";
+              $gw2=$pw2*.1; $gh2=$ph2*.35; $gy2=$oy2+($ph2-$gh2)/2;
+              echo "<rect x='$ox2' y='$gy2' width='$gw2' height='$gh2' fill='none' stroke='#fff' stroke-width='1.2'/>";
+              echo "<rect x='" . ($ox2+$pw2-$gw2) . "' y='$gy2' width='$gw2' height='$gh2' fill='none' stroke='#fff' stroke-width='1.2'/>";
+            } else {
+              $pl2=$ph2*.65; $ppw2=$pw2*.1;
+              echo "<rect x='" . ($cx2-$ppw2/2) . "' y='" . ($cy2-$pl2/2) . "' width='$ppw2' height='$pl2' fill='#a3e635' rx='2' stroke='#65a30d' stroke-width='1.5'/>";
+              echo "<line x1='" . ($cx2-$ppw2/2) . "' y1='" . ($cy2-$pl2/2+$pl2*.14) . "' x2='" . ($cx2+$ppw2/2) . "' y2='" . ($cy2-$pl2/2+$pl2*.14) . "' stroke='#fff' stroke-width='1.5'/>";
+              echo "<line x1='" . ($cx2-$ppw2/2) . "' y1='" . ($cy2+$pl2/2-$pl2*.14) . "' x2='" . ($cx2+$ppw2/2) . "' y2='" . ($cy2+$pl2/2-$pl2*.14) . "' stroke='#fff' stroke-width='1.5'/>";
+            }
+            if ($isCage) {
+              echo "<rect x='$ox2' y='$oy2' width='$pw2' height='$ph2' fill='none' stroke='#f97316' stroke-width='2.5' stroke-dasharray='5,3'/>";
+            }
+            echo "<text x='" . ($ox2+$pw2/2) . "' y='" . ($oy2+$ph2+13) . "' font-size='9' fill='#374151' text-anchor='middle'>{$L}ft × {$W}ft</text>";
+            ?>
+          </svg>
+        </div>
+
+        <div style="padding:16px">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px;gap:8px">
+            <div>
+              <div style="font-weight:700;font-size:.95rem;color:#1e293b"><?php echo htmlspecialchars($p['title']); ?></div>
+              <div style="font-size:.75rem;color:<?php echo $clr; ?>;font-weight:600;margin-top:2px"><?php echo $lbl; ?></div>
+            </div>
+            <?php if ($p['is_template']): ?>
+            <span style="background:#fff7ed;color:#f97316;padding:2px 8px;border-radius:99px;font-size:.7rem;font-weight:700;white-space:nowrap"><i class="fas fa-star"></i> Template</span>
+            <?php endif; ?>
+          </div>
+          <div style="display:flex;gap:12px;font-size:.78rem;color:#64748b;margin-bottom:12px;flex-wrap:wrap">
+            <span><i class="fas fa-ruler-horizontal" style="color:<?php echo $clr; ?>"></i> <?php echo $L; ?>ft</span>
+            <span><i class="fas fa-ruler-vertical" style="color:<?php echo $clr; ?>"></i> <?php echo $W; ?>ft</span>
+            <span><i class="fas fa-arrows-alt-v" style="color:<?php echo $clr; ?>"></i> H:<?php echo $H; ?>ft</span>
+            <span style="font-weight:700;color:#1e293b"><?php echo number_format($sqft); ?> sq.ft</span>
+          </div>
+          <?php if ($p['notes']): ?>
+          <p style="font-size:.78rem;color:#94a3b8;margin-bottom:10px;line-height:1.5"><?php echo htmlspecialchars(substr($p['notes'],0,80)); ?>...</p>
+          <?php endif; ?>
+          <button onclick="event.stopPropagation();openPlanModal(<?php echo htmlspecialchars(json_encode($p)); ?>)"
+                  style="width:100%;padding:8px;background:<?php echo $clr; ?>15;color:<?php echo $clr; ?>;border:1px solid <?php echo $clr; ?>40;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s"
+                  onmouseover="this.style.background='<?php echo $clr; ?>'" onmouseout="this.style.background='<?php echo $clr; ?>15';this.style.color='<?php echo $clr; ?>'">
+            <i class="fas fa-expand"></i> View Full Plan &amp; Elevations
+          </button>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+
+    <div style="text-align:center;margin-top:30px">
+      <p style="color:var(--text-light);font-size:.88rem;margin-bottom:14px">Need a custom floor plan for your project?</p>
+      <a href="tel:+91<?php echo SITE_PHONE; ?>" class="btn btn-primary">
+        <i class="fas fa-phone-alt"></i> Call for Custom Plan
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Floor Plan Modal -->
+<div id="plan-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:9999;overflow-y:auto;padding:20px">
+  <div style="max-width:900px;margin:20px auto;background:#fff;border-radius:16px;overflow:hidden">
+    <div style="padding:16px 20px;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div id="modal-title" style="font-weight:800;font-size:1.1rem"></div>
+        <div id="modal-type" style="font-size:.8rem;color:#64748b"></div>
+      </div>
+      <button onclick="closePlanModal()" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#64748b;padding:4px">&times;</button>
+    </div>
+    <div style="padding:20px">
+      <!-- Tabs -->
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <button class="modal-tab active" onclick="switchModalView('mplan',this)" style="padding:7px 14px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:#FF6B00;color:#fff;transition:all .2s">
+          <i class="fas fa-map"></i> Plan View
+        </button>
+        <button class="modal-tab" onclick="switchModalView('melev-front',this)" style="padding:7px 14px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:#f1f5f9;color:#64748b;transition:all .2s">
+          <i class="fas fa-building"></i> Front Elevation
+        </button>
+        <button class="modal-tab" onclick="switchModalView('melev-side',this)" style="padding:7px 14px;border-radius:8px;font-size:.8rem;font-weight:600;cursor:pointer;border:none;background:#f1f5f9;color:#64748b;transition:all .2s">
+          <i class="fas fa-sign"></i> Side Elevation
+        </button>
+      </div>
+      <div id="mview-mplan"><svg id="modal-plan-svg" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc"></svg></div>
+      <div id="mview-melev-front" style="display:none"><svg id="modal-elev-front-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc"></svg></div>
+      <div id="mview-melev-side" style="display:none"><svg id="modal-elev-side-svg" viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc"></svg></div>
+      <div id="modal-dims" style="margin-top:14px;background:#1e293b;color:#a3e635;font-family:monospace;font-size:.82rem;padding:12px 16px;border-radius:8px"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Reuse the same SVG rendering from admin (lightweight version for frontend)
+function makeR(x,y,w,h,fill,stroke,sw,rx,op){return`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${fill||'none'}" stroke="${stroke||'none'}" stroke-width="${sw||1}" rx="${rx||0}" opacity="${op||1}"/>`;}
+function makeL(x1,y1,x2,y2,s,sw,d){return`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${s||'#fff'}" stroke-width="${sw||1}" stroke-dasharray="${d||'none'}"/>`;}
+function makeT(x,y,t,sz,f,a,fw){return`<text x="${x}" y="${y}" font-size="${sz||10}" fill="${f||'#1e293b'}" text-anchor="${a||'middle'}" font-weight="${fw||'normal'}" font-family="Inter,Arial,sans-serif">${t}</text>`;}
+function makeC(cx,cy,r,f,s,sw){return`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${f||'none'}" stroke="${s||'#fff'}" stroke-width="${sw||1.5}"/>`;}
+
+function renderModalPlan(type, L, W, H) {
+  const VW=800,VH=500,mg=60;
+  const avW=VW-mg*2,avH=VH-mg*2;
+  const sc=Math.min(avW/L,avH/W),pw=L*sc,ph=W*sc,ox=(VW-pw)/2,oy=(VH-ph)/2;
+  const isCricket=type.startsWith('box-cricket')||type==='multi-lane';
+  const isCage=type==='box-cricket-cage'||type==='box-cricket-rooftop';
+  let s=`<defs><pattern id="g" patternUnits="userSpaceOnUse" width="20" height="20"><rect width="20" height="20" fill="#4ade80"/><line x1="0" y1="10" x2="20" y2="10" stroke="#3cb97b" stroke-width="0.4" opacity="0.5"/><line x1="10" y1="0" x2="10" y2="20" stroke="#3cb97b" stroke-width="0.4" opacity="0.5"/></pattern></defs>`;
+  s+=makeR(0,0,VW,VH,'#e0f2fe');
+  s+=makeR(ox,oy,pw,ph,'url(#g)','#16a34a',3,4);
+  if(!isCricket){
+    const cx=ox+pw/2,cy=oy+ph/2,cr=Math.min(ph*.16,pw*.08);
+    s+=makeC(cx,cy,cr,'none','#fff',2);s+=makeC(cx,cy,3,'#fff','none');
+    s+=makeL(cx,oy,cx,oy+ph,'#fff',2);
+    const paW=pw*.12,paH=ph*.45,paY=oy+(ph-paH)/2;
+    s+=makeR(ox,paY,paW,paH,'rgba(255,255,255,.08)','#fff',1.5);
+    s+=makeR(ox+pw-paW,paY,paW,paH,'rgba(255,255,255,.08)','#fff',1.5);
+    const gW=pw*.015,gH=ph*.1,gY=oy+(ph-gH)/2;
+    s+=makeR(ox-gW,gY,gW,gH,'#fbbf24','#f59e0b',2,2);s+=makeR(ox+pw,gY,gW,gH,'#fbbf24','#f59e0b',2,2);
+  } else if(type==='multi-lane'){
+    const dvX=ox+pw/2;s+=makeL(dvX,oy,dvX,oy+ph,'#f97316',3,'6,3');
+    [ox,ox+pw/2].forEach((lox,li)=>{const lw=pw/2,lh=ph,lcx=lox+lw/2,lcy=oy+lh/2,pLen=lh*.65,pWid=lw*.12;
+      s+=makeR(lcx-pWid/2,lcy-pLen/2,pWid,pLen,'#a3e635','#65a30d',1.5,3);
+      s+=makeL(lcx-pWid/2,lcy-pLen/2+pLen*.14,lcx+pWid/2,lcy-pLen/2+pLen*.14,'#fff',1.5);
+      s+=makeL(lcx-pWid/2,lcy+pLen/2-pLen*.14,lcx+pWid/2,lcy+pLen/2-pLen*.14,'#fff',1.5);
+    });
+    s+=makeR(ox,oy,pw,ph,'none','#f97316',3,4);
+  } else {
+    const cx=ox+pw/2,cy=oy+ph/2,nw=8;
+    s+=makeR(ox,oy,nw,ph,'#f97316','none',0,0,.5);s+=makeR(ox+pw-nw,oy,nw,ph,'#f97316','none',0,0,.5);
+    s+=makeR(ox,oy,pw,nw,'#f97316','none',0,0,.5);s+=makeR(ox,oy+ph-nw,pw,nw,'#f97316','none',0,0,.5);
+    if(isCage){s+=`<defs><pattern id="tn" patternUnits="userSpaceOnUse" width="12" height="12"><line x1="0" y1="0" x2="12" y2="12" stroke="#f97316" stroke-width=".8" opacity=".3"/><line x1="12" y1="0" x2="0" y2="12" stroke="#f97316" stroke-width=".8" opacity=".3"/></pattern></defs>`;s+=makeR(ox+nw,oy+nw,pw-nw*2,ph-nw*2,'url(#tn)','#f97316',1.5);}
+    else{s+=makeR(ox+nw,oy+nw,pw-nw*2,ph-nw*2,'#4ade80','#16a34a',1.5);}
+    const pLen=ph*.65,pWid=pw*.1;
+    s+=makeR(cx-pWid/2,cy-pLen/2,pWid,pLen,'#a3e635','#65a30d',2,3);
+    s+=makeL(cx-pWid/2,cy-pLen/2+pLen*.13,cx+pWid/2,cy-pLen/2+pLen*.13,'#fff',2);
+    s+=makeL(cx-pWid/2,cy+pLen/2-pLen*.13,cx+pWid/2,cy+pLen/2-pLen*.13,'#fff',2);
+    s+=makeR(ox,oy,pw,ph,'none','#f97316',3,4);
+  }
+  // Dimension labels
+  s+=makeT(ox+pw/2,oy-10,L+'ft','11','#1e293b','middle','700');
+  s+=makeT(ox-10,oy+ph/2,W+'ft','11','#1e293b','middle','700');
+  s+=makeT(VW/2,VH-8,'Plan View  |  NetsDial Floor Plan','10','#94a3b8','middle');
+  document.getElementById('modal-plan-svg').innerHTML=s;
+}
+
+function renderModalElevFront(type,L,W,H){
+  const VW=800,VH=400,mg=60,gY=VH-60,avW=VW-mg*2,sc=avW/L,pw=L*sc,ph=H*sc,ox=(VW-pw)/2,oy=gY-ph;
+  const isCage=type==='box-cricket-cage'||type==='box-cricket-rooftop';
+  let s=`<defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bfdbfe"/><stop offset="100%" stop-color="#e0f2fe"/></linearGradient>
+  <pattern id="msh" patternUnits="userSpaceOnUse" width="10" height="10"><line x1="0" y1="0" x2="10" y2="10" stroke="#f97316" stroke-width=".8" opacity=".5"/><line x1="10" y1="0" x2="0" y2="10" stroke="#f97316" stroke-width=".8" opacity=".5"/></pattern></defs>`;
+  s+=makeR(0,0,VW,VH,'url(#sky3)');s+=makeR(0,gY,VW,VH-gY,'#a3e635');
+  const pw2=8;s+=makeR(ox,oy,pw2,ph,'#1e293b');s+=makeR(ox+pw-pw2,oy,pw2,ph,'#1e293b');
+  s+=makeR(ox+pw2,oy,pw-pw2*2,ph,'url(#msh)','#f97316',1.5);
+  if(isCage)s+=makeR(ox,oy,pw,pw2,'#1e293b');
+  s+=makeR(ox+pw2,gY-8,pw-pw2*2,8,'#4ade80','#16a34a',1.5);
+  s+=makeL(0,gY,VW,gY,'#64748b',1.5,'4,3');
+  s+=makeT(ox+pw/2,oy-8,'FRONT ELEVATION  |  Length: '+L+'ft × Height: '+H+'ft','11','#1e293b','middle','700');
+  s+=makeT(ox+pw/2,gY+20,L+'ft','10','#64748b','middle','600');
+  s+=makeT(ox-30,(oy+gY)/2,H+'ft','10','#64748b','middle','600');
+  s+=makeT(ox+pw/2,oy+ph/2,'HDPE Net  |  MS Frame','10','#f97316','middle','700');
+  s+=makeT(VW/2,VH-5,'Front Elevation  |  NetsDial by GCM Enterprises','9','#94a3b8','middle');
+  document.getElementById('modal-elev-front-svg').innerHTML=s;
+}
+
+function renderModalElevSide(type,L,W,H){
+  const VW=800,VH=400,gY=VH-60,avW=VW-120,sc=avW/W,pw=W*sc,ph=H*sc,ox=(VW-pw)/2,oy=gY-ph;
+  const isCage=type==='box-cricket-cage'||type==='box-cricket-rooftop';
+  let s=`<defs><linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bfdbfe"/><stop offset="100%" stop-color="#e0f2fe"/></linearGradient>
+  <pattern id="msh2" patternUnits="userSpaceOnUse" width="10" height="10"><line x1="0" y1="0" x2="10" y2="10" stroke="#f97316" stroke-width=".8" opacity=".5"/><line x1="10" y1="0" x2="0" y2="10" stroke="#f97316" stroke-width=".8" opacity=".5"/></pattern></defs>`;
+  s+=makeR(0,0,VW,VH,'url(#sky4)');s+=makeR(0,gY,VW,VH-gY,'#a3e635');
+  const pw2=8;s+=makeR(ox,oy,pw2,ph,'#1e293b');s+=makeR(ox+pw-pw2,oy,pw2,ph,'#1e293b');
+  s+=makeR(ox+pw2,oy,pw-pw2*2,ph,'url(#msh2)','#f97316',1.5);
+  if(isCage)s+=makeR(ox,oy,pw,pw2,'#1e293b');
+  s+=makeR(ox+pw2,gY-8,pw-pw2*2,8,'#4ade80','#16a34a',1.5);
+  s+=makeL(0,gY,VW,gY,'#64748b',1.5,'4,3');
+  s+=makeT(ox+pw/2,oy-8,'SIDE ELEVATION  |  Width: '+W+'ft × Height: '+H+'ft','11','#1e293b','middle','700');
+  s+=makeT(ox+pw/2,gY+20,W+'ft','10','#64748b','middle','600');
+  s+=makeT(ox-30,(oy+gY)/2,H+'ft','10','#64748b','middle','600');
+  s+=makeT(VW/2,VH-5,'Side Elevation  |  NetsDial by GCM Enterprises','9','#94a3b8','middle');
+  document.getElementById('modal-elev-side-svg').innerHTML=s;
+}
+
+function openPlanModal(plan) {
+  const type=plan.ground_type||'custom', L=parseFloat(plan.length_ft)||0, W=parseFloat(plan.width_ft)||0, H=parseFloat(plan.height_ft)||0;
+  const labels={'football-5':'5-a-Side Football','football-6':'6-a-Side Football','football-7':'7-a-Side Football','football-9':'9-a-Side Football','football-11':'11-a-Side Football (FIFA)','box-cricket-cage':'Box Cricket – Full Cage','box-cricket-open':'Box Cricket – Open Top','box-cricket-rooftop':'Box Cricket – Rooftop','box-cricket-indoor':'Box Cricket – Indoor','multi-lane':'Multi-Lane Twin Setup','custom':'Custom Layout'};
+  document.getElementById('modal-title').textContent = plan.title;
+  document.getElementById('modal-type').textContent = labels[type] || type;
+  document.getElementById('modal-dims').innerHTML = `📐 ${L}ft × ${W}ft | Height: ${H}ft | Area: ${(L*W).toLocaleString('en-IN')} sq.ft | Net perimeter walls: ~${(2*(L+W)*H).toFixed(0)} sq.ft`;
+  renderModalPlan(type,L,W,H);
+  renderModalElevFront(type,L,W,H);
+  renderModalElevSide(type,L,W,H);
+  document.getElementById('plan-modal').style.display='block';
+  document.body.style.overflow='hidden';
+  // Reset tabs
+  document.querySelectorAll('.modal-tab').forEach((b,i)=>{b.style.background=i===0?'#FF6B00':'#f1f5f9';b.style.color=i===0?'#fff':'#64748b';});
+  document.querySelectorAll('[id^="mview-"]').forEach((v,i)=>{v.style.display=i===0?'block':'none';});
+}
+function closePlanModal(){document.getElementById('plan-modal').style.display='none';document.body.style.overflow='';}
+function switchModalView(view,btn){
+  document.querySelectorAll('[id^="mview-"]').forEach(v=>v.style.display='none');
+  document.getElementById('mview-'+view).style.display='block';
+  document.querySelectorAll('.modal-tab').forEach(b=>{b.style.background='#f1f5f9';b.style.color='#64748b';});
+  btn.style.background='#FF6B00';btn.style.color='#fff';
+}
+document.getElementById('plan-modal').addEventListener('click',function(e){if(e.target===this)closePlanModal();});
+</script>
+<?php endif; ?>
+
+<!-- ═══════════════════════════════════════════════════════════════
      SPORTS TURF SETUP GUIDE – Below Calculators
 ════════════════════════════════════════════════════════════════ -->
 <section class="section" style="background:var(--light-gray);padding-top:60px;padding-bottom:60px">
