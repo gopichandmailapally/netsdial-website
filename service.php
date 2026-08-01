@@ -416,6 +416,213 @@ echo '<script type="application/ld+json">' . $schema . '</script>';
           </script>
         </div>
 
+
+<?php if ($keyword['category'] === 'Sports & Recreation'): ?>
+<?php
+  $is_football = in_array($keyword_slug, ['artificial-grass','artificial-turf','cricket-ground-pitch-turf']);
+  $is_cricket  = in_array($keyword_slug, ['box-cricket-nets','box-cricket-setup','sports-practice-nets']);
+?>
+
+<!-- ═══════ SPORTS SETUP GUIDE (injected for Sports & Recreation keywords) ═══════ -->
+<div data-aos="fade-up" style="margin-top:48px">
+
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+    <div style="width:44px;height:44px;background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.2rem;flex-shrink:0">
+      <i class="fas fa-futbol"></i>
+    </div>
+    <div>
+      <div style="font-size:.75rem;font-weight:700;color:#16a34a;text-transform:uppercase;letter-spacing:.08em">Complete Setup Guide</div>
+      <h3 style="margin:0;font-size:1.4rem">Commercial Sports Turf – Types &amp; Configurations</h3>
+    </div>
+  </div>
+  <p style="color:var(--text-light);margin-bottom:28px">
+    When building commercial sports turf facilities, standard dimensions, player configurations, and setup variations
+    dictate how grounds are designed and constructed. Use this guide to choose the right setup for your project in
+    <strong><?php echo htmlspecialchars($area_name . ', ' . $city_name); ?></strong>.
+  </p>
+
+  <?php if ($is_football || !$is_cricket): ?>
+  <!-- ── SECTION 1: Football Turf Types ── -->
+  <h4 style="font-size:1.15rem;font-weight:700;border-left:4px solid #16a34a;padding-left:12px;margin-bottom:20px">
+    <i class="fas fa-futbol" style="color:#16a34a"></i> &nbsp;1. Types of Football Turf Grounds
+  </h4>
+
+  <!-- Standard formats grid -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:24px">
+
+    <?php
+    $football_types = [
+      ['5-a-Side Turf', 'fas fa-users', '#3b82f6', 'Futsal Format',
+       '~15m × 25m to 20m × 30m<br><small style="color:var(--text-light)">(approx. 4,000 – 6,500 sq. ft.)</small>',
+       'Highly popular in urban centres with space constraints. High turnover, faster gameplay, lower installation and lighting costs.'],
+      ['6-a-Side Turf', 'fas fa-users', '#8b5cf6', 'Mid-size Format',
+       '~20m × 35m to 22m × 40m<br><small style="color:var(--text-light)">(approx. 7,500 – 9,500 sq. ft.)</small>',
+       'Middle-ground solution for spaces slightly too small for a standard 7-a-side pitch.'],
+      ['7-a-Side Turf', 'fas fa-star', '#f59e0b', 'Standard Commercial',
+       '~30m × 50m to 35m × 55m<br><small style="color:var(--text-light)">(approx. 16,000 – 21,000 sq. ft.)</small>',
+       '<strong>Most commercially lucrative</strong> for recreational leagues and corporate bookings.'],
+      ['8/9-a-Side Turf', 'fas fa-users', '#ec4899', 'Academy Format',
+       '~40m × 60m to 45m × 65m<br><small style="color:var(--text-light)">(approx. 25,000 – 32,000 sq. ft.)</small>',
+       'Built by semi-professional academies or large sports complexes.'],
+      ['11-a-Side Pitch', 'fas fa-trophy', '#dc2626', 'FIFA Standard',
+       '~68m × 105m<br><small style="color:var(--text-light)">(approx. 70,000+ sq. ft.)</small>',
+       'Professional stadiums, official academy grounds and tournament facilities.'],
+    ];
+    foreach ($football_types as $ft): ?>
+    <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;background:#fff;position:relative;overflow:hidden">
+      <div style="position:absolute;top:0;right:0;width:60px;height:60px;background:<?php echo $ft[2]; ?>;opacity:.08;border-radius:0 var(--radius-lg) 0 100%"></div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:36px;height:36px;background:<?php echo $ft[2]; ?>;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;flex-shrink:0">
+          <i class="<?php echo $ft[1]; ?>"></i>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:.95rem"><?php echo $ft[0]; ?></div>
+          <div style="font-size:.72rem;color:<?php echo $ft[2]; ?>;font-weight:600;text-transform:uppercase;letter-spacing:.05em"><?php echo $ft[3]; ?></div>
+        </div>
+      </div>
+      <div style="font-size:.82rem;font-weight:600;color:var(--text-dark);margin-bottom:8px"><?php echo $ft[4]; ?></div>
+      <p style="font-size:.8rem;color:var(--text-light);margin:0;line-height:1.55"><?php echo $ft[5]; ?></p>
+    </div>
+    <?php endforeach; ?>
+  </div>
+
+  <!-- Modular & Multi-sport -->
+  <h5 style="font-weight:700;margin-bottom:14px;color:var(--text-dark)">Operational &amp; Modular Variations</h5>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:36px">
+    <div style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;border-radius:var(--radius-lg);padding:18px">
+      <div style="font-weight:700;margin-bottom:8px;color:#16a34a"><i class="fas fa-divide"></i> &nbsp;Multi-Divisible Turf (Modular Partition System)</div>
+      <p style="font-size:.82rem;margin:0;color:#15803d;line-height:1.6">
+        Constructing a large <strong>7-a-side or 9-a-side field</strong> equipped with <strong>retractable dividing net systems</strong>.
+        One 7-a-side pitch can be split into two 5-a-side grounds simultaneously to double booking potential during peak hours.
+      </p>
+    </div>
+    <div style="background:linear-gradient(135deg,#fefce8,#fef9c3);border:1px solid #fde047;border-radius:var(--radius-lg);padding:18px">
+      <div style="font-weight:700;margin-bottom:8px;color:#ca8a04"><i class="fas fa-layer-group"></i> &nbsp;Multi-Sport Hybrid Turf</div>
+      <p style="font-size:.82rem;margin:0;color:#92400e;line-height:1.6">
+        Turf fields marked for both football and box cricket using multi-colored line markings —
+        white for football, yellow/red for cricket crease lines. Maximizes utility of a single installation.
+      </p>
+    </div>
+  </div>
+  <?php endif; ?>
+
+  <?php if ($is_cricket || !$is_football): ?>
+  <!-- ── SECTION 2: Box Cricket Setup Types ── -->
+  <h4 style="font-size:1.15rem;font-weight:700;border-left:4px solid #f97316;padding-left:12px;margin-bottom:20px">
+    <i class="fas fa-baseball-ball" style="color:#f97316"></i> &nbsp;2. Types of Box Cricket Setups
+  </h4>
+
+  <!-- A. Structural types -->
+  <h5 style="font-weight:700;margin-bottom:14px;color:var(--text-dark)">A. By Structural &amp; Frame Setup</h5>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px">
+    <?php
+    $cricket_structures = [
+      ['Full Cage Box Setup', 'fas fa-cube', '#f97316', 'Top Covered',
+       'Fully enclosed on all four sides and completely roofed with high-density perimeter netting (typically 40mm–50mm square mesh).',
+       'Keeps the ball entirely contained. Ideal for high-density commercial spaces or multi-story rooftops.'],
+      ['Open-Top / High-Wall', 'fas fa-arrows-alt-v', '#0ea5e9', 'Side Nets Only',
+       'High side walls (20ft–30ft nets) without a top net cover.',
+       'Feels more open for high-lofted shots but requires a larger perimeter buffer zone.'],
+      ['Rooftop Box Setup', 'fas fa-home', '#8b5cf6', 'Terrace Build',
+       'Built on commercial building terraces using lightweight MS/GI pipe framing attached via chemical anchoring to prevent roof penetration.',
+       'Maximizes unused terrace area without major structural changes.'],
+      ['Indoor / Warehouse', 'fas fa-warehouse', '#10b981', 'Climate Controlled',
+       'Built inside industrial sheds or indoor commercial centres using truss structures and ceiling suspension networks.',
+       'Enables year-round, climate-controlled play regardless of rain or heat.'],
+    ];
+    foreach ($cricket_structures as $cs): ?>
+    <div style="border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;background:#fff">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="width:36px;height:36px;background:<?php echo $cs[2]; ?>;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.9rem;flex-shrink:0">
+          <i class="<?php echo $cs[1]; ?>"></i>
+        </div>
+        <div>
+          <div style="font-weight:800;font-size:.88rem"><?php echo $cs[0]; ?></div>
+          <div style="font-size:.7rem;color:<?php echo $cs[2]; ?>;font-weight:600;text-transform:uppercase"><?php echo $cs[3]; ?></div>
+        </div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-dark);margin-bottom:8px"><?php echo $cs[4]; ?></p>
+      <p style="font-size:.78rem;color:var(--text-light);margin:0"><strong>Advantage:</strong> <?php echo $cs[5]; ?></p>
+    </div>
+    <?php endforeach; ?>
+  </div>
+
+  <!-- B. Pitch layout types -->
+  <h5 style="font-weight:700;margin-bottom:14px;color:var(--text-dark)">B. By Pitch &amp; Outfield Layout</h5>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:24px">
+    <div style="border:1px solid #fed7aa;border-radius:var(--radius-lg);padding:18px;background:#fff7ed">
+      <div style="font-weight:700;color:#ea580c;margin-bottom:6px"><i class="fas fa-circle"></i> &nbsp;Single Central Pitch Layout</div>
+      <p style="font-size:.8rem;margin:0;line-height:1.6;color:#7c2d12">
+        A single central pitch (usually 20–22 yards) centred inside a standard 50ft × 80ft or 60ft × 100ft netted arena,
+        with synthetic grass spanning both the pitch and outfield.
+      </p>
+    </div>
+    <div style="border:1px solid #bbf7d0;border-radius:var(--radius-lg);padding:18px;background:#f0fdf4">
+      <div style="font-weight:700;color:#16a34a;margin-bottom:6px"><i class="fas fa-columns"></i> &nbsp;Multi-Lane / Twin Setup</div>
+      <p style="font-size:.8rem;margin:0;line-height:1.6;color:#14532d">
+        Two or more parallel box cricket grounds sharing a central dividing net partition,
+        optimizing land usage and shared lighting infrastructure.
+      </p>
+    </div>
+    <div style="border:1px solid #c7d2fe;border-radius:var(--radius-lg);padding:18px;background:#eef2ff">
+      <div style="font-weight:700;color:#4f46e5;margin-bottom:6px"><i class="fas fa-layer-group"></i> &nbsp;Dual-Turf System (Differentiated Pitch)</div>
+      <p style="font-size:.8rem;margin-bottom:6px;line-height:1.6;color:#312e81">
+        <strong>Pitch Area:</strong> High-density, short-pile non-infill turf (12mm–15mm curly grass or needle-punch carpet) over a concrete pad for true ball bounce and seam movement.
+      </p>
+      <p style="font-size:.8rem;margin:0;line-height:1.6;color:#312e81">
+        <strong>Outfield Area:</strong> Taller sports turf (25mm–40mm) with rubber granule + silica sand infill for player cushioning and sliding.
+      </p>
+    </div>
+  </div>
+  <?php endif; ?>
+
+  <!-- ── SECTION 3: Turf Spec & Infill Table ── -->
+  <h4 style="font-size:1.15rem;font-weight:700;border-left:4px solid #0ea5e9;padding-left:12px;margin-bottom:16px">
+    <i class="fas fa-table" style="color:#0ea5e9"></i> &nbsp;Turf Specification &amp; Infill Comparison
+  </h4>
+  <div style="overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:8px">
+    <table style="width:100%;border-collapse:collapse;font-size:.85rem">
+      <thead>
+        <tr style="background:linear-gradient(135deg,#1e293b,#334155);color:#fff">
+          <th style="padding:14px 18px;text-align:left;font-weight:600">Turf Type</th>
+          <th style="padding:14px 18px;text-align:left;font-weight:600">Fiber Height</th>
+          <th style="padding:14px 18px;text-align:left;font-weight:600">Primary Infill</th>
+          <th style="padding:14px 18px;text-align:left;font-weight:600">Best For</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:14px 18px;font-weight:700;color:#16a34a"><i class="fas fa-leaf" style="margin-right:6px"></i>Monofilament Grass</td>
+          <td style="padding:14px 18px">40mm – 50mm</td>
+          <td style="padding:14px 18px">Silica Sand + SBR Rubber<br><small style="color:var(--text-light)">(Styrene-Butadiene Rubber)</small></td>
+          <td style="padding:14px 18px"><span style="background:#dcfce7;color:#16a34a;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600">Football &amp; Multi-Sport</span></td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border);background:#f8f9fa">
+          <td style="padding:14px 18px;font-weight:700;color:#f97316"><i class="fas fa-leaf" style="margin-right:6px"></i>Fibrillated Grass</td>
+          <td style="padding:14px 18px">30mm – 40mm</td>
+          <td style="padding:14px 18px">Silica Sand + SBR Rubber<br><small style="color:var(--text-light)">(Styrene-Butadiene Rubber)</small></td>
+          <td style="padding:14px 18px"><span style="background:#fff7ed;color:#f97316;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600">High-Traffic Cricket Outfields</span></td>
+        </tr>
+        <tr>
+          <td style="padding:14px 18px;font-weight:700;color:#0ea5e9"><i class="fas fa-leaf" style="margin-right:6px"></i>Non-Infill Curly Grass</td>
+          <td style="padding:14px 18px">12mm – 15mm</td>
+          <td style="padding:14px 18px">None (Direct Stick)<br><small style="color:var(--text-light)">Glued directly to concrete pad</small></td>
+          <td style="padding:14px 18px"><span style="background:#e0f2fe;color:#0ea5e9;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600">Fast Cricket Batting Pitches</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="font-size:.78rem;color:var(--text-light);margin-top:8px">
+    <i class="fas fa-info-circle"></i> &nbsp;SBR = Styrene-Butadiene Rubber granules used as shock-absorption infill layer.
+    All Russea™ HDPE sports nets are compatible with every turf type listed above.
+    <a href="<?php echo SITE_URL; ?>/estimation.php" style="color:var(--primary)">Use our estimation calculator</a> or
+    <a href="tel:+91<?php echo SITE_PHONE; ?>" style="color:var(--primary)">call <?php echo SITE_PHONE; ?></a> for exact project pricing.
+  </p>
+
+</div>
+<!-- ═══════ END SPORTS SETUP GUIDE ═══════ -->
+<?php endif; ?>
+
       </div><!-- end service-main -->
 
       <!-- Sidebar -->
