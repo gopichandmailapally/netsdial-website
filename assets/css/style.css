@@ -176,14 +176,17 @@ p { color: var(--text-medium); }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
+  overflow: hidden;
 }
 .top-bar-left, .top-bar-right {
   display: flex;
   align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 14px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .top-contact {
   display: flex;

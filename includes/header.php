@@ -149,7 +149,7 @@ $canonical = SITE_URL . strtok($page_url, '?');
     <div class="top-bar-left">
       <a href="tel:+91<?php echo $site_phone; ?>" class="top-contact">
         <i class="fas fa-phone-alt"></i>
-        <span>+91 <?php echo chunk_split($site_phone, 5, ' '); ?></span>
+        <span>+91 <?php echo $site_phone; ?></span>
       </a>
       <a href="mailto:<?php echo $site_email; ?>" class="top-contact">
         <i class="fas fa-envelope"></i>
@@ -157,18 +157,18 @@ $canonical = SITE_URL . strtok($page_url, '?');
       </a>
       <span class="top-contact top-address-hide">
         <i class="fas fa-map-marker-alt"></i>
-        <span>Karmanghat, Hyderabad – 500035</span>
+        <span>Karmanghat, Hyderabad</span>
       </span>
     </div>
     <div class="top-bar-right">
       <span class="top-badge top-badge-brand">
-        <i class="fas fa-trademark"></i> Russea™ Authorised Wholesale Supplier
+        <i class="fas fa-trademark"></i> Russea™ Wholesale Supplier
       </span>
-      <span class="top-badge">
+      <span class="top-badge top-badge-hide">
         <i class="fas fa-truck"></i> PAN India Delivery
       </span>
       <span class="top-badge top-badge-hide">
-        <i class="fas fa-award"></i> Largest from South India
+        <i class="fas fa-award"></i> South India #1
       </span>
       <a href="<?php echo SITE_WHATSAPP; ?>" target="_blank" rel="noopener" class="top-whatsapp">
         <i class="fab fa-whatsapp"></i> WhatsApp
