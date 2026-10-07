@@ -1,7 +1,7 @@
 <?php
 /**
  * ============================================================================
- * NETSDIAL — MASTER XML SITEMAP ENGINE (5,250,000+ FEASIBLE URLs)
+ * NETSDIAL — MASTER XML SITEMAP ENGINE (5,254,116 FEASIBLE URLs)
  * ============================================================================
  * Generates valid chunked XML sitemaps adhering strictly to:
  * "Feasible Location Service System"
@@ -26,9 +26,17 @@ $today = date("Y-m-d");
 $URLS_PER_SITEMAP = 40000;
 $TOTAL_SITEMAPS   = 132;
 
-// Check if requested a specific sitemap page (e.g. sitemap-1.xml or ?page=1)
-if (isset($_GET["page"])) {
-    $page = max(1, min($TOTAL_SITEMAPS, intval($_GET["page"])));
+// Robust page detection from query string OR request URI
+$page = null;
+if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
+    $page = intval($_GET["page"]);
+} elseif (preg_match('/sitemap-(\d+)\.xml/i', $_SERVER["REQUEST_URI"] ?? "", $m)) {
+    $page = intval($m[1]);
+}
+
+// If sub-sitemap requested (e.g. /sitemap-1.xml or ?page=1)
+if ($page !== null && $page >= 1) {
+    $page = min($TOTAL_SITEMAPS, $page);
     
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
@@ -92,64 +100,58 @@ if (isset($_GET["page"])) {
     $tsap_services = array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_TS_AP_ONLY));
     $hyd_services  = array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_HYDERABAD_ONLY));
 
-    $start_offset = ($page - 1) * $URLS_PER_SITEMAP;
-    $end_offset   = $start_offset + $URLS_PER_SITEMAP;
-    $cursor = 0;
+    $start = ($page - 1) * $URLS_PER_SITEMAP;
+    $end   = $start + $URLS_PER_SITEMAP;
+    $idx   = 0;
 
     // Generator 1: Hyderabad Local
-    foreach ($hyd_areas as $loc_slug => $loc_name) {
-        foreach ($hyd_services as $svc) {
-            foreach (FeasibleLocationServiceSystem::$INTENTS_HYDERABAD as $intent) {
-                $cursor++;
-                if ($cursor > $start_offset && $cursor <= $end_offset) {
-                    echo "  <url><loc>{$base}/{$svc}-{$intent}-in-{$loc_slug}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
+    foreach ($hyd_areas as $l => $n) {
+        foreach ($hyd_services as $s) {
+            foreach (FeasibleLocationServiceSystem::$INTENTS_HYDERABAD as $i) {
+                if ($idx >= $start && $idx < $end) {
+                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
                 }
-                if ($cursor > $end_offset) break 3;
+                $idx++;
+                if ($idx >= $end) { echo "</urlset>\n"; exit; }
             }
         }
     }
 
     // Generator 2: TS & AP
-    if ($cursor <= $end_offset) {
-        foreach ($ts_ap_areas as $loc_slug => $loc_name) {
-            foreach ($tsap_services as $svc) {
-                foreach (FeasibleLocationServiceSystem::$INTENTS_TS_AP as $intent) {
-                    $cursor++;
-                    if ($cursor > $start_offset && $cursor <= $end_offset) {
-                        echo "  <url><loc>{$base}/{$svc}-{$intent}-in-{$loc_slug}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
-                    }
-                    if ($cursor > $end_offset) break 3;
+    foreach ($ts_ap_areas as $l => $n) {
+        foreach ($tsap_services as $s) {
+            foreach (FeasibleLocationServiceSystem::$INTENTS_TS_AP as $i) {
+                if ($idx >= $start && $idx < $end) {
+                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
                 }
+                $idx++;
+                if ($idx >= $end) { echo "</urlset>\n"; exit; }
             }
         }
     }
 
     // Generator 3: 500 KM Radius
-    if ($cursor <= $end_offset) {
-        foreach ($radius_500_areas as $loc_slug => $loc_name) {
-            foreach ($r500_services as $svc) {
-                foreach (FeasibleLocationServiceSystem::$INTENTS_500KM as $intent) {
-                    $cursor++;
-                    if ($cursor > $start_offset && $cursor <= $end_offset) {
-                        echo "  <url><loc>{$base}/{$svc}-{$intent}-in-{$loc_slug}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
-                    }
-                    if ($cursor > $end_offset) break 3;
+    foreach ($radius_500_areas as $l => $n) {
+        foreach ($r500_services as $s) {
+            foreach (FeasibleLocationServiceSystem::$INTENTS_500KM as $i) {
+                if ($idx >= $start && $idx < $end) {
+                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
                 }
+                $idx++;
+                if ($idx >= $end) { echo "</urlset>\n"; exit; }
             }
         }
     }
 
     // Generator 4: PAN India Supply
-    if ($cursor <= $end_offset) {
-        foreach ($pan_india_areas as $loc_slug => $loc_name) {
-            foreach ($pan_services as $svc) {
-                foreach (FeasibleLocationServiceSystem::$INTENTS_PAN_INDIA as $intent) {
-                    $cursor++;
-                    if ($cursor > $start_offset && $cursor <= $end_offset) {
-                        echo "  <url><loc>{$base}/{$svc}-{$intent}-in-{$loc_slug}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n";
-                    }
-                    if ($cursor > $end_offset) break 3;
+    foreach ($pan_india_areas as $l => $n) {
+        foreach ($pan_services as $s) {
+            foreach (FeasibleLocationServiceSystem::$INTENTS_PAN_INDIA as $i) {
+                if ($idx >= $start && $idx < $end) {
+                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n";
                 }
+                $idx++;
+                if ($idx >= $end) { echo "</urlset>\n"; exit; }
             }
         }
     }
