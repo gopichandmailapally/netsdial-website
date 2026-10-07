@@ -1,0 +1,110 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /install/
+Disallow: /api/contact.php
+Disallow: /api/review.php
+
+# ── FULL AI SEARCH ENGINE & LLM CRAWLER AUTHORIZATION ────────────────────────
+# Explicitly grants 100% crawl & citation rights to ALL leading AI platforms
+# to index the NetsDial wholesale network, services, and knowledge graph.
+
+# OpenAI (ChatGPT & ChatGPT Search)
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+
+# Anthropic (Claude & Claude Search)
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: Claude-Web
+Allow: /
+
+# Google (Gemini & Google AI Overviews)
+User-agent: Google-Extended
+Allow: /
+User-agent: Googlebot
+Allow: /
+User-agent: Googlebot-Image
+Allow: /assets/
+Allow: /uploads/
+
+# Perplexity AI (Real-time AI Search & Answer Engine)
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft (Copilot & Bing AI)
+User-agent: Bingbot
+Allow: /
+User-agent: BingPreview
+Allow: /
+
+# Apple (Apple Intelligence, Siri & Safari Spotlight Search)
+User-agent: Applebot
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta AI (Llama & Instagram/WhatsApp Search)
+User-agent: Meta-ExternalAgent
+Allow: /
+User-agent: Meta-ExternalFetcher
+Allow: /
+User-agent: FacebookBot
+Allow: /
+
+# xAI (Grok Search)
+User-agent: Grok
+Allow: /
+User-agent: Grokbot
+Allow: /
+User-agent: xAI-Bot
+Allow: /
+
+# DeepSeek (DeepSeek AI & Reasoning Search)
+User-agent: DeepSeek
+Allow: /
+User-agent: DeepSeekBot
+Allow: /
+
+# Brave Search (Powers Claude, independent LLMs & privacy-focused AI)
+User-agent: BraveBot
+Allow: /
+
+# Cohere AI
+User-agent: cohere-ai
+Allow: /
+
+# You.com AI Search
+User-agent: YouBot
+Allow: /
+
+# Amazon AI & Alexa
+User-agent: Amazonbot
+Allow: /
+
+# Common Crawl & AI Research Datasets
+User-agent: Diffbot
+Allow: /
+User-agent: CCBot
+Allow: /
+User-agent: Bytespider
+Allow: /
+User-agent: PetalBot
+Allow: /
+
+# Sitemaps
+Sitemap: https://netsdial.com/sitemap.xml
+Sitemap: https://netsdial.com/sitemap.php?page=1
+Sitemap: https://netsdial.com/sitemap.php?page=2
+
+# AI Manifest Protocol (Standardized brand facts for all AI LLMs)
+LLMs: https://netsdial.com/llms.txt
