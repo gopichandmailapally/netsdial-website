@@ -8,8 +8,16 @@
  * ============================================================================
  */
 
-define("NETSDIAL", true);
-require_once __DIR__ . "/config/config.php";
+// Disable PHP session headers for clean crawler caching
+ini_set("session.use_cookies", 0);
+header_remove("Set-Cookie");
+header_remove("Pragma");
+header_remove("Expires");
+
+header("Content-Type: application/xml; charset=UTF-8");
+header("Cache-Control: public, max-age=86400");
+header("X-Robots-Tag: noindex, follow");
+
 require_once __DIR__ . "/includes/feasible_location_service_system.php";
 
 $base  = "https://netsdial.com";
@@ -18,10 +26,10 @@ $today = date("Y-m-d");
 $URLS_PER_SITEMAP = 40000;
 $TOTAL_SITEMAPS   = 132;
 
-// If requested a specific sitemap page
+// Check if requested a specific sitemap page (e.g. sitemap-1.xml or ?page=1)
 if (isset($_GET["page"])) {
     $page = max(1, min($TOTAL_SITEMAPS, intval($_GET["page"])));
-    header("Content-Type: application/xml; charset=UTF-8");
+    
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 
@@ -150,13 +158,12 @@ if (isset($_GET["page"])) {
     exit;
 }
 
-// ── Default: Master Sitemap Index (132 Sitemaps) ────────────────────
-header("Content-Type: application/xml; charset=UTF-8");
+// ── Default: Master Sitemap Index (Clean .xml paths for Google Search Console) ──────
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 echo "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 for ($i = 1; $i <= $TOTAL_SITEMAPS; $i++) {
     echo "  <sitemap>\n";
-    echo "    <loc>" . htmlspecialchars($base . "/sitemap.php?page={$i}") . "</loc>\n";
+    echo "    <loc>" . htmlspecialchars($base . "/sitemap-{$i}.xml") . "</loc>\n";
     echo "    <lastmod>{$today}</lastmod>\n";
     echo "  </sitemap>\n";
 }
