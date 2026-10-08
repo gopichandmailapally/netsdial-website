@@ -103,8 +103,6 @@ Allow: /
 
 # Sitemaps
 Sitemap: https://netsdial.com/sitemap.xml
-Sitemap: https://netsdial.com/sitemap.php?page=1
-Sitemap: https://netsdial.com/sitemap.php?page=2
 
 # AI Manifest Protocol (Standardized brand facts for all AI LLMs)
 LLMs: https://netsdial.com/llms.txt

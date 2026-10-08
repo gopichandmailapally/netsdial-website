@@ -1,14 +1,18 @@
 <?php
 /**
  * ============================================================================
- * NETSDIAL — MASTER XML SITEMAP ENGINE (5,254,116 FEASIBLE URLs)
+ * NETSDIAL — HIGH PERFORMANCE O(1) XML SITEMAP ENGINE (5,254,116 URLs)
  * ============================================================================
- * Generates valid chunked XML sitemaps adhering strictly to:
- * "Feasible Location Service System"
+ * Strict Business & Geo-Scope Compliance: "Feasible Location Service System"
+ *  1. Hyderabad Local (Cloth Hangers & Residential Balconies): 52,884 URLs
+ *  2. TS & AP (Invisible Grills 100% Locations): 535,296 URLs
+ *  3. 500 KM Radius (Box Cricket & Commercial High-Rise): 604,800 URLs
+ *  4. PAN India (Construction Safety, Russea HDPE Wholesale): 4,061,136 URLs
+ *  TOTAL FEASIBLE URLS: Exactly 5,254,116 URLs across 132 chunked sitemaps
  * ============================================================================
  */
 
-// Disable PHP session headers for clean crawler caching
+// Disable session headers for pristine crawler caching
 ini_set("session.use_cookies", 0);
 header_remove("Set-Cookie");
 header_remove("Pragma");
@@ -26,7 +30,7 @@ $today = date("Y-m-d");
 $URLS_PER_SITEMAP = 40000;
 $TOTAL_SITEMAPS   = 132;
 
-// Robust page detection from query string OR request URI
+// Robust page detection from query string OR request URI (/sitemap-42.xml)
 $page = null;
 if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     $page = intval($_GET["page"]);
@@ -34,33 +38,9 @@ if (isset($_GET["page"]) && is_numeric($_GET["page"])) {
     $page = intval($m[1]);
 }
 
-// If sub-sitemap requested (e.g. /sitemap-1.xml or ?page=1)
+// ── SUB-SITEMAP (sitemap-1.xml through sitemap-132.xml) ─────────────────────
 if ($page !== null && $page >= 1) {
-    $page = min($TOTAL_SITEMAPS, $page);
-    
-    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-    echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
-
-    if ($page === 1) {
-        // Output Core Static Pages
-        $main_pages = [
-            "/"                  => ["1.0", "daily"],
-            "/about.php"         => ["0.9", "weekly"],
-            "/about-netsdial.php"=> ["0.9", "weekly"],
-            "/faq.php"           => ["0.8", "weekly"],
-            "/estimation.php"    => ["0.9", "weekly"],
-            "/gallery.php"       => ["0.7", "weekly"],
-            "/videos.php"        => ["0.7", "weekly"],
-            "/reviews.php"       => ["0.8", "weekly"],
-            "/blogs.php"         => ["0.8", "daily"],
-            "/contact.php"       => ["0.9", "weekly"],
-            "/services.php"      => ["0.9", "weekly"],
-            "/llms.txt"          => ["0.5", "monthly"]
-        ];
-        foreach ($main_pages as $p => [$pri, $cf]) {
-            echo "  <url><loc>" . htmlspecialchars($base . $p) . "</loc><lastmod>{$today}</lastmod><changefreq>{$cf}</changefreq><priority>{$pri}</priority></url>\n";
-        }
-    }
+    $page = min($TOTAL_SITEMAPS, max(1, $page));
 
     // Load Taxonomy
     $geo_file = __DIR__ . "/includes/geo_taxonomy.json";
@@ -95,72 +75,120 @@ if ($page !== null && $page >= 1) {
         }
     }
 
-    $pan_services  = array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_PAN_INDIA));
-    $r500_services = array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_RADIUS_500KM));
-    $tsap_services = array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_TS_AP_ONLY));
-    $hyd_services  = array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_HYDERABAD_ONLY));
+    $hyd_keys   = array_keys($hyd_areas);
+    $tsap_keys  = array_keys($ts_ap_areas);
+    $r500_keys  = array_keys($radius_500_areas);
+    $pan_keys   = array_keys($pan_india_areas);
+
+    $pan_services  = array_values(array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_PAN_INDIA)));
+    $r500_services = array_values(array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_RADIUS_500KM)));
+    $tsap_services = array_values(array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_TS_AP_ONLY)));
+    $hyd_services  = array_values(array_keys(array_filter(FeasibleLocationServiceSystem::$SERVICES, fn($s) => $s["scope"] === FeasibleLocationServiceSystem::SCOPE_HYDERABAD_ONLY)));
+
+    $hyd_intents  = FeasibleLocationServiceSystem::$INTENTS_HYDERABAD;
+    $tsap_intents = FeasibleLocationServiceSystem::$INTENTS_TS_AP;
+    $r500_intents = FeasibleLocationServiceSystem::$INTENTS_500KM;
+    $pan_intents  = FeasibleLocationServiceSystem::$INTENTS_PAN_INDIA;
+
+    $c1 = count($hyd_keys) * count($hyd_services) * count($hyd_intents);         // 52,884
+    $c2 = count($tsap_keys) * count($tsap_services) * count($tsap_intents);     // 535,296
+    $c3 = count($r500_keys) * count($r500_services) * count($r500_intents);     // 604,800
+    $c4 = count($pan_keys) * count($pan_services) * count($pan_intents);         // 4,061,136
+    $total_urls = $c1 + $c2 + $c3 + $c4;                                        // 5,254,116
 
     $start = ($page - 1) * $URLS_PER_SITEMAP;
-    $end   = $start + $URLS_PER_SITEMAP;
-    $idx   = 0;
+    $end   = min($total_urls, $start + $URLS_PER_SITEMAP);
 
-    // Generator 1: Hyderabad Local
-    foreach ($hyd_areas as $l => $n) {
-        foreach ($hyd_services as $s) {
-            foreach (FeasibleLocationServiceSystem::$INTENTS_HYDERABAD as $i) {
-                if ($idx >= $start && $idx < $end) {
-                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
-                }
-                $idx++;
-                if ($idx >= $end) { echo "</urlset>\n"; exit; }
-            }
+    echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+    echo "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
+
+    if ($page === 1) {
+        $main_pages = [
+            "/"                  => ["1.0", "daily"],
+            "/about.php"         => ["0.9", "weekly"],
+            "/about-netsdial.php"=> ["0.9", "weekly"],
+            "/faq.php"           => ["0.8", "weekly"],
+            "/estimation.php"    => ["0.9", "weekly"],
+            "/gallery.php"       => ["0.7", "weekly"],
+            "/videos.php"        => ["0.7", "weekly"],
+            "/reviews.php"       => ["0.8", "weekly"],
+            "/blogs.php"         => ["0.8", "daily"],
+            "/contact.php"       => ["0.9", "weekly"],
+            "/services.php"      => ["0.9", "weekly"],
+            "/llms.txt"          => ["0.5", "monthly"]
+        ];
+        foreach ($main_pages as $p => [$pri, $cf]) {
+            echo "  <url><loc>" . htmlspecialchars($base . $p) . "</loc><lastmod>{$today}</lastmod><changefreq>{$cf}</changefreq><priority>{$pri}</priority></url>\n";
         }
     }
 
-    // Generator 2: TS & AP
-    foreach ($ts_ap_areas as $l => $n) {
-        foreach ($tsap_services as $s) {
-            foreach (FeasibleLocationServiceSystem::$INTENTS_TS_AP as $i) {
-                if ($idx >= $start && $idx < $end) {
-                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
-                }
-                $idx++;
-                if ($idx >= $end) { echo "</urlset>\n"; exit; }
-            }
-        }
-    }
+    $SI_hyd  = count($hyd_services) * count($hyd_intents);
+    $I_hyd   = count($hyd_intents);
 
-    // Generator 3: 500 KM Radius
-    foreach ($radius_500_areas as $l => $n) {
-        foreach ($r500_services as $s) {
-            foreach (FeasibleLocationServiceSystem::$INTENTS_500KM as $i) {
-                if ($idx >= $start && $idx < $end) {
-                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>\n";
-                }
-                $idx++;
-                if ($idx >= $end) { echo "</urlset>\n"; exit; }
-            }
-        }
-    }
+    $SI_tsap = count($tsap_services) * count($tsap_intents);
+    $I_tsap  = count($tsap_intents);
 
-    // Generator 4: PAN India Supply
-    foreach ($pan_india_areas as $l => $n) {
-        foreach ($pan_services as $s) {
-            foreach (FeasibleLocationServiceSystem::$INTENTS_PAN_INDIA as $i) {
-                if ($idx >= $start && $idx < $end) {
-                    echo "  <url><loc>{$base}/{$s}-{$i}-in-{$l}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>\n";
+    $SI_r500 = count($r500_services) * count($r500_intents);
+    $I_r500  = count($r500_intents);
+
+    $SI_pan  = count($pan_services) * count($pan_intents);
+    $I_pan   = count($pan_intents);
+
+    // O(1) Direct Mathematical Generator Loop
+    for ($g = $start; $g < $end; $g++) {
+        $idx = $g;
+        if ($idx < $c1) {
+            $loc_idx    = intdiv($idx, $SI_hyd);
+            $rem        = $idx % $SI_hyd;
+            $svc_idx    = intdiv($rem, $I_hyd);
+            $int_idx    = $rem % $I_hyd;
+            $loc = $hyd_keys[$loc_idx];
+            $svc = $hyd_services[$svc_idx];
+            $int = $hyd_intents[$int_idx];
+            $pri = "0.8";
+        } else {
+            $idx -= $c1;
+            if ($idx < $c2) {
+                $loc_idx    = intdiv($idx, $SI_tsap);
+                $rem        = $idx % $SI_tsap;
+                $svc_idx    = intdiv($rem, $I_tsap);
+                $int_idx    = $rem % $I_tsap;
+                $loc = $tsap_keys[$loc_idx];
+                $svc = $tsap_services[$svc_idx];
+                $int = $tsap_intents[$int_idx];
+                $pri = "0.8";
+            } else {
+                $idx -= $c2;
+                if ($idx < $c3) {
+                    $loc_idx    = intdiv($idx, $SI_r500);
+                    $rem        = $idx % $SI_r500;
+                    $svc_idx    = intdiv($rem, $I_r500);
+                    $int_idx    = $rem % $I_r500;
+                    $loc = $r500_keys[$loc_idx];
+                    $svc = $r500_services[$svc_idx];
+                    $int = $r500_intents[$int_idx];
+                    $pri = "0.8";
+                } else {
+                    $idx -= $c3;
+                    $loc_idx    = intdiv($idx, $SI_pan);
+                    $rem        = $idx % $SI_pan;
+                    $svc_idx    = intdiv($rem, $I_pan);
+                    $int_idx    = $rem % $I_pan;
+                    $loc = $pan_keys[$loc_idx];
+                    $svc = $pan_services[$svc_idx];
+                    $int = $pan_intents[$int_idx];
+                    $pri = "0.7";
                 }
-                $idx++;
-                if ($idx >= $end) { echo "</urlset>\n"; exit; }
             }
         }
+        echo "  <url><loc>{$base}/{$svc}-{$int}-in-{$loc}</loc><lastmod>{$today}</lastmod><changefreq>weekly</changefreq><priority>{$pri}</priority></url>\n";
     }
 
     echo "</urlset>\n";
     exit;
 }
 
-// ── Default: Master Sitemap Index (Clean .xml paths for Google Search Console) ──────
+// ── MASTER SITEMAP INDEX (https://netsdial.com/sitemap.xml) ─────────────────
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 echo "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n";
 for ($i = 1; $i <= $TOTAL_SITEMAPS; $i++) {
